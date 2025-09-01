@@ -1,0 +1,70 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  
+}
+
+#wrapper {
+    flex: 1;
+}
+
+body,
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: Montserrat, sans-serif;
+}
+
+.header-main {
+    overflow: hidden;
+    background: rgb(72, 199, 142);
+    background: -webkit-linear-gradient(rgba(72, 199, 142, 0.6), rgba(72, 199, 142, 0.9), rgba(72, 199, 142, 0.9), rgba(72, 199, 142, 0.6)), url("../img/header-main.jpg");
+    background: linear-gradient(rgba(72, 199, 142, 0.6), rgba(72, 199, 142, 0.9), rgba(72, 199, 142, 0.9), rgba(72, 199, 142, 0.6)), url("../img/header-main.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.header-1 {
+    overflow: hidden;
+    background: rgb(72, 95, 199);
+    background: -webkit-linear-gradient(rgba(72, 95, 199, 0.9), rgba(72, 95, 199, 0.5), rgba(72, 95, 199, 0.5)), url("../img/header-1.jpg");
+    background: linear-gradient(rgba(72, 95, 199, 0.9), rgba(72, 95, 199, 0.5), rgba(72, 95, 199, 0.5)), url("../img/header-1.jpg");
+    background-attachment: fixed;
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navbar-item img {
+    max-height: 4.25rem;
+}
+
+.navbar-burger {
+    height: 4.25rem;
+    margin-top: .5rem;
+    margin-bottom: .75rem;
+}
+
+.navbar-burger span {
+    height: 2px;
+}
+
+.bd-link:hover {
+    background-color: var(--success-light);
+    color: var(--success-dark);
+}
+
+.bd-link-icon {
+    color: var(--success);
+}
+
+@media only screen and (max-width: 1000px) {
+    .header-main {
+        min-height: 100vh;
+    }
+}

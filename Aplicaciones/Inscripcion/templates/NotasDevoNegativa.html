@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="{% static 'js/jquery-2.1.3.js' %}"></script>
+
+</head>
+
+
+<body>
+
+
+  <div class="card-header">
+    <div class="card-header bg-beige text-center">
+      <h5 class="mb-0">Notas Devolutivas y Negativas</h5>
+    </div>
+    <div class="card-body bg-light">
+        <div class="mt-4 text-center">
+        <div class="mb-3">
+          <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="registroMercantil">
+          <label class="form-check-label" for="registroMercantil">Registro Mercantil</label>
+        </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="devoluciones">
+            <label class="form-check-label" for="devoluciones">Devoluciones Procesadas</label>
+          </div>
+        </div>
+
+      <!-- Formulario de búsqueda -->
+      <form class="d-flex align-items-center gap-3 flex-wrap">
+        <div class="col-auto">
+          <label for="buscarPor" class="fw-bold text-danger">BUSCAR POR:</label>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" id="buscarPor">
+            <option>AÑO</option>
+            <option>CLIENTE</option>
+            <option>NO COMPROBANTE</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <label for="buscarPor" class="fw-bold text-danger">Fecha:</label>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" id="buscarPor">
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <input type="text" class="form-control" placeholder="Ingresar su búsqueda...">
+        </div>
+
+        
+      
+      </form>
+      <div class="mt-4">
+        <!-- Tabla de resultados -->
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-dark" style="font-size: 10px;">
+              <tr>
+                <th>Id_Inscripcion</th>
+                <th>Tipo</th>
+                <th>No_Comprobante</th>
+                <th>FechaRevision</th>
+                <th>No_Repertorio</th>
+                <th>ElaboradoPor</th>
+                <th>A Favor</th>
+                <th>Cliente</th>
+                <th>Solicitado Por</th>
+                <th>Estado</th>
+                <th>IdComprobante</th>
+              </tr>
+            </thead>
+            <tbody style="font-size: 10px;">
+              <tr>
+                <td>1202500112200</td>
+                <td>D</td>
+                <td>1125</td>
+                <td>10/06/2025 5:38:50 p. m.</td>
+                <td>1122</td>
+                <td>1</td>
+                <td>Argudo Gomez Laura Lucia</td>
+                <td>ARGUDO GOMEZ LAURA</td>
+                <td>ARGUDO GOMEZ LAURA</td>
+                <td>A</td>
+                <td>1111</td>
+              </tr>
+              <tr>
+                <td>1202500110800</td>
+                <td>D</td>
+                <td>1111</td>
+                <td>5/06/2025 12:56:22 p. m.</td>
+                <td>1108</td>
+                <td>4</td>
+                <td>Castro Cuji Johanna Elizabeth</td>
+                <td>Rodas Romero Edison</td>
+                <td>ARGUDO GOMEZ LAURA</td>
+                <td>A</td>
+                <td>1111</td>
+              </tr>
+              <!-- Puedes seguir agregando filas aquí -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

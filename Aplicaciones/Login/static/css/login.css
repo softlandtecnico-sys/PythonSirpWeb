@@ -1,0 +1,249 @@
+.bnt_login {
+    background-color: #57bd9e;
+    border: #57bd9e 3px solid;
+    color: white;
+}
+
+.etiquetas {
+    font-size: 0.2vw;
+    margin-right: 4%;
+}
+
+.bnt_login:hover {
+    background-color: #2ca880;
+    border: #2ca880 3px solid
+}
+
+.contedormedio {
+    width: 100%;
+    height: auto;
+    padding: 2%;  
+  
+}
+.espa {
+    margin-right: 5%;
+}
+
+.regresar {
+    cursor: pointer;
+}
+
+.regre {
+    height: 550px;
+    overflow-y: scroll;
+    padding: 2%;
+    transition-duration: 250ms;
+    display: none;
+}
+
+.formulario {
+    width: 100%;
+    height: auto; 
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3%;
+
+
+ 
+}
+
+gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fccb90;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
+
+
+/*Efecto*/
+
+.modalmask {
+    position: fixed;
+    font-family: Arial, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    opacity: 0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
+
+.modalmask:target {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/*Formato de la ventana*/
+
+.modalbox {
+    width: 400px;
+    position: relative;
+    padding: 5px 20px 13px 20px;
+    background: #fff;
+    border-radius: 3px;
+    -webkit-transition: all 500ms ease-in;
+    -moz-transition: all 500ms ease-in;
+    transition: all 500ms ease-in;
+   
+}
+
+
+/*Movimientos*/
+
+.movedown {
+    margin: 0 auto;
+}
+
+.rotate {
+    margin: 10% auto;
+    -webkit-transform: scale(-5, -5);
+    transform: scale(-5, -5);
+}
+
+.resize {
+    margin: 10% auto;
+    width: 0;
+    height: 0;
+}
+
+.modalmask:target .movedown {
+    margin: 10% auto;
+}
+
+.modalmask:target .rotate {
+    transform: rotate(360deg) scale(1, 1);
+    -webkit-transform: rotate(360deg) scale(1, 1);
+}
+
+.modalmask:target .resize {
+    width: 400px;
+    height: 200px;
+}
+
+
+/*Boton de cerrar*/
+
+.close {
+    background: #606061;
+    color: #FFFFFF;
+    line-height: 25px;
+    position: absolute;
+    right: 1px;
+    text-align: center;
+    top: 1px;
+    width: 24px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 3px;
+}
+.button_inicio{
+    width: 100%;
+    height: auto;
+    background: #2ca880;
+    border-radius: 7px;
+    color: white;
+    border: 0px;
+    font-size: 3vh;
+    font-weight: 600;
+    padding: 1%;
+    text-align: center;
+
+}
+.titulo{
+    font-size: 3vh;
+    font-weight: 600;
+    margin: 1%;
+    margin-top: 2%;
+}
+.titulo2{
+    font-size: 2.2vh;
+    font-weight: 600;
+    margin: 2%;
+    margin-top: 4%;
+}
+.etiquetaslabel{
+    font-size: 2.2vh;
+    margin: 2%;
+}
+.espacio{
+    margin-top: 4%;
+}
+.button_inicio:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.login{
+    padding: 1%;
+}
+.close:hover {
+    background: #FAAC58;
+    color: #222;
+}
+.cardgroup{
+    width: 60%;
+    margin-right: auto;
+    margin-left: auto;
+    height: 50%;
+    display: flex;
+    background: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.contenedor_iput{
+    padding: 1%;
+}
+.contenedor_button{
+    margin-top: 6vh;
+    padding: 2%;
+    outline: none;
+}
+.contenedor_iz{
+    width: 50%;
+
+}
+.contenedor_de{
+    width: 50%;
+}
+
+@media only screen and (max-width: 1000px) {
+    .cardgroup{
+        width: 100%;
+        display: block;
+    }
+    .contenedor_iz{
+        width: 100%;
+    }
+
+    .contenedor_imagen_login {
+        display: none;
+    }
+    .formulario {
+        width: 95%;
+        margin-top: 10%;
+    }
+    .etiquetas {
+        font-size: 3vw;
+    }
+    .contenedor_button{
+        margin-bottom: 5%;
+    }
+}

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="{% static 'js/jquery-2.1.3.js' %}"></script>
+  <script src="{% static 'js/Token.js' %}"></script>
+  <script src="{% static 'js/ListarBuscarPor.js' %}"></script>
+
+</head>
+
+<body>
+    <div class="card-header">
+  <form style="display:none;">
+    {% csrf_token %}
+  </form>
+
+  <div class="card-header bg-beige text-center">
+    <h5 class="mb-0">Busqueda</h5>
+  </div>
+  <div class="mt-4 text-center">
+    <div class="mb-3">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="filtroEstado" id="Rpropiedad">
+        <label class="form-check-label text-danger fw-semibold" for="porRevisar">Registro Mercantil</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="filtroEstado" id="Rmercantil" checked>
+        <label class="form-check-label text-danger fw-semibold" for="porRevisar">Registro Propiedad</label>
+      </div>
+    </div>
+  </div>
+  <div class="card-body bg-light">
+    <form class="d-flex align-items-center gap-3 flex-wrap">
+      <div class="col-auto">
+        <label class="col-form-label fw-bold text-danger">BUSCAR POR:</label>
+      </div>
+      <div class="col-auto">
+        <select class="form-select" id="buscarPor">
+
+        </select>
+      </div>
+      <div class="w-45">
+        <input type="text" class="form-control" placeholder="Ingrese su búsqueda...">
+      </div>
+      <div class="w-45">
+        <input type="text" class="form-control" placeholder="Ingrese su búsqueda...">
+      </div>
+
+    </form>
+    <div class="mt-4">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="table-dark" style="font-size: 10px;">
+            <tr>
+              <th>No_Comprobante</th>
+              <th>A Favor</th>
+              <th>Acto</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>No Repertorio</th>
+              <th>Secuencia</th>
+
+            </tr>
+          </thead>
+          <tbody style="font-size: 10px;">
+            <tr>
+              <td><a href="#">PROPIEDAD</a></td>
+              <td>1126</td>
+              <td>63275</td>
+              <td>COMPRA VENTA DE NICHO</td>
+              <td>Chalco Boconzaca Ricardo</td>
+              <td>$50.81</td>
+              <td>1123</td>
+
+            </tr>
+            <tr>
+              <td>PROPIEDAD</td>
+              <td>953</td>
+              <td>62600</td>
+              <td>Resolución Rectificatoria</td>
+              <td>Jadan Balarezo Angeles Rufino</td>
+              <td>$120.00</td>
+              <td>950</td>
+
+            </tr>
+            <tr>
+              <td>PROPIEDAD</td>
+              <td>1127</td>
+              <td>63276</td>
+              <td>COMPRA VENTA</td>
+              <td>Cabrera Bueno Luis Enrique</td>
+              <td>$70.78</td>
+              <td>1124</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+</body>
+
+</html>

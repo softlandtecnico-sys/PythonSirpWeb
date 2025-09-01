@@ -1,0 +1,366 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Principal</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link href="{% static 'css/principal.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'css/menu.css' %}" rel="stylesheet" type="text/css" />
+        <script src="{% static 'js/jquery-2.1.3.js' %}"></script>
+        <script src="{% static 'js/principal.js' %}"></script>
+
+
+        
+    </head>
+    <body>
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark"
+            style="background-color: #2ecc71 ">
+            <a class="navbar-brand text-white" href="#"><h3><strong>SIRP</strong></h3></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Inscripción
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a id="1" class="dropdown-item" href="#">Revisión de Ordenes de Inscripción</a>
+                            <a id="2" class="dropdown-item" href="#">Consultas de Orden de Prelación</a>
+                            <a id="3" class="dropdown-item" href="#">Buscar Devoluciones Emitidas</a>
+                            <a id="4" class="dropdown-item" href="#">Consultar Notas Apuntes</a>
+                            <a id="5" class="dropdown-item" href="#">Buscar Inscripción</a>
+                            <a id="6" class="dropdown-item" href="#">Listados de Inscripciones por Ingresar</a>
+                            <a id="7" class="dropdown-item" href="#">Nueva Ficha Registrales</a>
+                            <a id="8" class="dropdown-item" href="#">Listar Folios</a>
+                            <a id="9" class="dropdown-item" href="#">Control de Calidad Inscripciones</a>
+                        </div>
+                    </li> 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Certificado
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a id="10" class="dropdown-item" href="#">Revisión de Ordenes de Certificados</a>
+                            <a id="11" class="dropdown-item" href="#">Crear Ficha</a>
+                            <a id="12" class="dropdown-item" href="#">Ingreso de Inscripciones</a>
+                            <a id="13" class="dropdown-item" href="#">Nueva Ficha de Transferencia Parcial</a>
+                            <a id="14" class="dropdown-item" href="#">Control de Calidad Certificados</a>                            
+                        </div>
+                    </li>                  
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Comprobante
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a id="15" class="dropdown-item" href="#">Emisión de Proforma</a>
+                            <a id="16" class="dropdown-item" href="#">Emisión de Comprobante</a>
+                            <a id="17" class="dropdown-item" href="#">Entrega Trámite</a>
+                            <a id="18" class="dropdown-item" href="#">Trámite Enviado por Correo</a>
+                            <div class="dropdown-submenu">
+                                      <a id="19" class="dropdown-item dropdown-toggle" href="#">Documentos Emitidos</a>
+                                       <div class="dropdown-menu">
+                                         <a id="20" class="dropdown-item" href="#">Razones</a>
+                                         <a id="21" class="dropdown-item" href="#">Certificados</a>  
+                                         <a id="22" class="dropdown-item" href="#">Devoluciones</a>  
+                                         <a id="23" class="dropdown-item" href="#">Otros Documentos</a>                                                          
+                                       </div>
+                            </div>
+                            <div class="dropdown-submenu">
+                                      <a id="24" class="dropdown-item dropdown-toggle" href="#">Reingreso de Trámite</a>
+                                       <div class="dropdown-menu">
+                                         <a id="25" class="dropdown-item" href="#">Inscripciones</a>
+                                         <a id="26" class="dropdown-item" href="#">Certificados</a>  
+                                         <a id="27" class="dropdown-item" href="#">Documentos Habilitantes</a>                                                          
+                                       </div>
+                            </div>
+                            <a id="28" class="dropdown-item" href="#">Reimpresión de Comprobante</a>
+                            <a id="29" class="dropdown-item" href="#">Emisión de Comprobante Sin Repertorio</a>
+                            <a id="30" class="dropdown-item" href="#">Buscar Proforma</a>
+                            <a id="31" class="dropdown-item" href="#">Informe de Facturación</a>
+                            <div class="dropdown-submenu">
+                                <a id="32" class="dropdown-item dropdown-toggle" href="#">Otros Documentos de Facturación</a>
+                                <div class="dropdown-menu">                              
+                                    <div class="dropdown-submenu">
+                                      <a id="33" class="dropdown-item dropdown-toggle" href="#">Retención</a>
+                                       <div class="dropdown-menu">
+                                         <a id="34" class="dropdown-item" href="#">Nuevo</a>
+                                         <a id="35" class="dropdown-item" href="#">Mantenimiento</a>                                                          
+                                       </div>
+                                   </div>
+                                   <div class="dropdown-submenu">
+                                      <a id="36" class="dropdown-item dropdown-toggle" href="#">Nota de Credito</a>
+                                       <div class="dropdown-menu">
+                                         <a id="37" class="dropdown-item" href="#">Nuevo</a>
+                                         <a id="38" class="dropdown-item" href="#">Mantenimiento</a>                                                          
+                                       </div>
+                                   </div>                                                                                     
+                                </div>
+                           </div>
+                            <div class="dropdown-submenu">
+                                <a id="39" class="dropdown-item dropdown-toggle" href="#">Comprobantes Electrónicos</a>
+                                <div class="dropdown-menu">
+                                    <a id="40" class="dropdown-item" href="#">Obtner Autorización</a>
+                                    <a id="41" class="dropdown-item" href="#">Consultar</a>                                                          
+                                </div>
+                           </div>
+                            <a id="42" class="dropdown-item" href="#">Buscar Trámite</a>
+                            <div class="dropdown-submenu">
+                                <a id="43" class="dropdown-item dropdown-toggle" href="#">Listar Trámites Internet</a>
+                                <div class="dropdown-menu">
+                                    <a id="44" class="dropdown-item" href="#">Emisión Proforma Trámites en Linea</a>
+                                    <a id="45" class="dropdown-item" href="#">Emisión de Comprobante Trámites en Linea</a>  
+                                    <a id="46" class="dropdown-item" href="#">Verificar Pagos en Linea</a>                                
+                                </div>
+                           </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Mantenimiento
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a id="47" class="dropdown-item" href="#">Inscripciones</a>
+                            <a id="48" class="dropdown-item" href="#">Fichas Registrales</a>
+                            <a id="49" class="dropdown-item" href="#">Clientes</a>
+                            <a id="50" class="dropdown-item" href="#">Cambiar Contraseña</a>
+                            <a id="51" class="dropdown-item" href="#">Comprobante</a>
+                            <a id="52" class="dropdown-item" href="#">Documento Habilitante</a>        
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Documentos Registrales
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a id="53" class="dropdown-item" href="#">Abrir Documento Habilitantes</a>
+                            <a id="54" class="dropdown-item" href="#">Listar Documento Habilitantes</a>
+                            <a id="55" class="dropdown-item" href="#">Agregar Documento Habilitantes</a>
+                            <a id="56" class="dropdown-item" href="#">Eliminar Documento Habilitantes</a>
+                            <a id="57" class="dropdown-item" href="#">Acta Apertura/Cierre Libros</a>
+                            <a id="58" class="dropdown-item" href="#">Enumeración Fisica de Libros Registrales</a>
+                            <a id="59" class="dropdown-item" href="#">Actas Registrales</a>
+                            <a id="60" class="dropdown-item" href="#">Razón Emitidas</a>
+                            <a id="61" class="dropdown-item" href="#">Certificados Emitidos</a>
+                            <a id="62" class="dropdown-item" href="#">Devolutivas y Negativas</a>
+                            <a id="63" class="dropdown-item" href="#">Libros Registrales</a>
+                            <a id="64" class="dropdown-item" href="#">Proformas/Comprobantes/Solicitudes</a>
+                           
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Informes
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a id="65" class="dropdown-item" href="#">Informes Internos</a>
+                            <a id="66" class="dropdown-item" href="#">Control de Orden de Trabajo</a>
+                            <a id="67" class="dropdown-item" href="#">Trámites Devueltos</a>
+                            <div class="dropdown-submenu">
+                                <a id="68" class="dropdown-item dropdown-toggle" href="#">Informes Externo</a>
+                                <div class="dropdown-menu">
+                                    <a id="69" class="dropdown-item" href="#">Dinarp SIR Propiedad</a>
+                                    <a id="70" class="dropdown-item" href="#">Dinarp SIR Mercantil</a>     
+                                    <a id="71" class="dropdown-item" href="#">UAFI</a>     
+                                    <a id="72" class="dropdown-item" href="#">Tranderencia de Dominio SRI</a>  
+                                    <a id="73" class="dropdown-item" href="#">Catrasto</a> 
+                                    <a id="74" class="dropdown-item" href="#">Dinarp Listado Remanentes</a>  
+                                    <a id="75" class="dropdown-item" href="#">Informe LOTAIP</a> 
+                                    <a id="76" class="dropdown-item" href="#">Banco Central</a>                                
+                                </div>
+                           </div>  
+                            <a id="77" class="dropdown-item" href="#">Indicadores</a>
+                            <a id="78" class="dropdown-item" href="#">Audotoría</a>
+                            <a id="79" class="dropdown-item" href="#">Ordenes de Tarbajos Asignados</a>
+                            <a id="80" class="dropdown-item" href="#">Listados Repertorio y Fichas</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Extensiones
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <div class="dropdown-submenu">
+                                <a id="81" class="dropdown-item dropdown-toggle" href="#">Mantenimientos Registrales</a>
+                                <div class="dropdown-menu">
+                                    <a id="82" class="dropdown-item" href="#">Inscripciones</a>
+                                    <a id="83" class="dropdown-item" href="#">Ficha Registral</a>                                
+                                </div>
+                           </div>
+                            <div class="dropdown-submenu">
+                                <a id="84" class="dropdown-item dropdown-toggle" href="#">Emisión de Certificados</a>
+                                <div class="dropdown-menu">
+                                    <a id="85" class="dropdown-item" href="#">Ficha Registral</a>  
+                                    <a id="86" class="dropdown-item" href="#">No Poseer Bienes</a>
+                                    <a id="87" class="dropdown-item" href="#">Razón de Inscripción</a>
+                                    <a id="88" class="dropdown-item" href="#">Otro Formato</a>  
+                                    <a id="89" class="dropdown-item" href="#">Listado de Propiedades</a>  
+                                </div>
+                           </div>
+                            <div class="dropdown-submenu">
+                                <a id="90" class="dropdown-item dropdown-toggle" href="#">Procesos Manuales</a>
+                                <div class="dropdown-menu">
+                                    <a id="91" class="dropdown-item" href="#">Nueva Inscripción</a>  
+                                    <a id="92" class="dropdown-item" href="#">Agregar Inscripción</a>
+                                    <a id="93" class="dropdown-item" href="#">Inscripciones Pendientes Año Anterior</a>
+                                    <a id="94" class="dropdown-item" href="#">Emisión de Trámites Rechazados</a>  
+                                    <a id="95" class="dropdown-item" href="#">Emisión de Acta Registral</a>  
+                                    <a id="96" class="dropdown-item" href="#">Costrucción de Folio</a>  
+                                </div>
+                           </div>
+                            <div class="dropdown-submenu">
+                                <a id="97" class="dropdown-item dropdown-toggle" href="#">Anulación de Repertorio e Inscripciones</a>
+                                <div class="dropdown-menu">
+                                    <a id="98" class="dropdown-item" href="#">Registrar</a>
+                                    <a id="99" class="dropdown-item" href="#">Listar</a>                                
+                                </div>
+                           </div>
+                            <a id="100" class="dropdown-item" href="#">Listados de Repertorios no Inscritos</a>
+                            <div class="dropdown-submenu">
+                                <a id="101" class="dropdown-item dropdown-toggle" href="#">Mantenimiento de Actos Registrales</a>
+                                <div class="dropdown-menu">
+                                    <a id="102" class="dropdown-item" href="#">Nuevo/Modificar</a>
+                                    <a id="103" class="dropdown-item" href="#">Listar/Actualizar</a>                                
+                                </div>
+                           </div>                            
+                            <div class="dropdown-submenu">
+                                <a id="104" class="dropdown-item dropdown-toggle" href="#">Mantenimiento de Papel Interviniente</a>
+                                <div class="dropdown-menu">
+                                    <a id="105" class="dropdown-item" href="#">Nuevo/Modificar</a>
+                                    <a id="106" class="dropdown-item" href="#">Listar/Actualizar</a>                                
+                                </div>
+                           </div> 
+                            <a id="107" class="dropdown-item" href="#">Anular Comprobante de Orden de Trabajo</a>
+                            <a id="108" class="dropdown-item" href="#">Modificar Tipo de Certificado Solicitado</a>
+                            <a id="109" class="dropdown-item" href="#">Re-Asignación de Orden</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Administración
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a id="110" class="dropdown-item" href="#">Respaldo</a>
+                            <a id="111" class="dropdown-item" href="#">Nuevo Usuario</a>
+                            <a id="112" class="dropdown-item" href="#">Mantenimiento de Usuarios</a>
+                            <a id="113" class="dropdown-item" href="#">Roles de Usuarios</a>
+                            <a id="114" class="dropdown-item" href="#">Registro de la Propiedad</a>
+                           <div class="dropdown-submenu">
+                                <a id="115" class="dropdown-item dropdown-toggle" href="#">Costo de Servicios</a>
+                                <div class="dropdown-menu">
+                                    <a id="116" class="dropdown-item" href="#">Servicios Registrales</a>
+                                    <a id="117" class="dropdown-item" href="#">Otros Servicios</a>
+                                    <a id="118" class="dropdown-item" href="#">Aranceles</a>
+                                </div>
+                           </div>
+                            <a id="119" class="dropdown-item" href="#">Tabla de valores de Cuantía</a>
+                            <a id="120" class="dropdown-item" href="#">Libros Registrales</a>
+                            <a id="121" class="dropdown-item" href="#">Parametros</a>
+                            <a id="122" class="dropdown-item" href="#">Modificar Estado del Trámite</a>
+                            <a id="123" class="dropdown-item" href="#">Sentencias SQL</a>
+                            <a id="124" class="dropdown-item" href="#">LOTAIP</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Ayuda
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a id="125" id="47" class="dropdown-item" href="#">Ley de Soporte Registral</a>
+                            <a id="126" id="48" class="dropdown-item" href="#">Manual de Usuario</a>
+                            <a id="127" id="49" class="dropdown-item" href="#">Manuales de Procedimientos</a>
+                            <a id="128" id="50" class="dropdown-item" href="#">Acerca del SIRP</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container-fluid p-0 m-0"> 
+            <div class="row">
+                <div class="col-12">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                        <li class="breadcrumb-item active">Panel</li>
+                    </ol>
+                </div>
+            </div>
+        </div >
+
+        <div id="contenedor_general" class="Containerpanel">
+            <div id="contenedor_principal" class="interiorpanel_derecho">
+                <div id="contenedor_iframer" class="contenedor">
+                
+                </div>
+
+            </div>
+            <!--div class="interiorpanel_izquierdo">
+                <iframe  width="100%" height="100%" frameborder="0"></iframe>
+
+            </div-->
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+      <strong>Copyright &copy; 2023-2024 SoftLand.</strong>
+      Reservados todos los derechos.
+      <div class="float-right d-none d-sm-inline-block"></div>
+    </footer>
+
+        <!-- jQuery and Bootstrap 4 JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    </body>
+
+</html>

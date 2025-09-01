@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal/minimal.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <script src="{% static 'js/jquery-2.1.3.js' %}"></script>
+  <link href="{% static 'css/csstable.css' %}" rel="stylesheet" type="text/css" />
+  <script src="{% static 'js/MostrarOrdenesPendientes.js' %}"></script>
+
+</head>
+
+<body>
+   <form style="display:none;">
+    {% csrf_token %}
+  </form>
+
+  <div class="card-header">
+  <div class="card-header bg-beige text-center">
+    <h5 class="mb-0">Órdenes por Inscribir</h5>
+  </div>
+<div class="card-body bg-light">
+  <form class="d-flex align-items-center gap-3 flex-wrap">
+    <div class="col-auto">
+      <label for="buscarPor" class="col-form-label fw-bold text-danger">BUSCAR POR:</label>
+    </div>
+    <div class="col-auto">
+      <select class="form-select" id="buscarPor">
+        <option value="1">A FAVOR DE QUIEN</option>
+        <option value="2">FECHA DE SOLICITUD</option>
+        <option value="3">TODOS</option>
+        <option value="4">OBSERVACIONES</option>
+      </select>
+    </div>
+    <div class="w-50">
+      <input type="text"  class="form-control" placeholder="Ingrese su búsqueda..." id="textOrdenPrelacion">
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-primary" id="BuscarOrdenPrelacion"> <i class="bi bi-search"></i> Buscar</button>
+    </div>
+  </form>
+</div>
+
+  <div class="mt-4 text-center">
+    <div class="table-responsive">
+       <div style="max-height: 300px; overflow-y: auto; overflow-x: auto;">
+      <table class="table table-bordered table-striped" id="TableOrdenesPendientes">
+        <thead class="table-dark" style="font-size: 10px;">
+          <tr>     
+            <th style='display: none;'>N°</th>
+            <th>No_Comprobante</th>
+            <th>A Favor</th>
+            <th>Acto</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>No Repertorio</th>
+            <th>Secuencia</th>
+
+          </tr>
+        </thead>
+      
+      </table>
+    </div>
+    </div>
+  </div>
+  <!-- Área de resultados vacía por ahora -->
+
+</div>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+</body>
+
+</html>
