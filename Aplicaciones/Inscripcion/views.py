@@ -117,7 +117,6 @@ def BuscarDevoluciones(request):
             param0 = data.get("param0")  
             param1 = data.get("param1")  
             param2 = data.get("param2")  
-
             consultas = BuscarDatos()            
             datos = consultas.BuscarDevolucionesDatos("MostrarDevolucionRegistral", [param0,param1,param2])
             if datos:            
@@ -125,7 +124,7 @@ def BuscarDevoluciones(request):
                 return JsonResponse(datos_list, safe=False)
             else:
              
-                return JsonResponse([{"Id": 0, "mensaje": "No se encontraron datos"}], safe=False)
+                return JsonResponse([{"Id_Inscripcion": 0, "mensaje": "No se encontraron datos"}], safe=False)
         except Exception as e:
             return JsonResponse([{"error": str(e)}], safe=False, status=500)
     return JsonResponse({"error": "Método no permitido"}, status=405)

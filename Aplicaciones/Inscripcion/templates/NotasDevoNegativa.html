@@ -8,115 +8,97 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal/minimal.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <script src="{% static 'js/jquery-2.1.3.js' %}"></script>
-
+  <script src="{% static 'js/BuscarDevoluciones.js' %}"></script>
+  <link href="{% static 'css/csstable.css' %}" rel="stylesheet" type="text/css" />
 </head>
 
-
 <body>
-
-
   <div class="card-header">
-    <div class="card-header bg-beige text-center">
-      <h5 class="mb-0">Notas Devolutivas y Negativas</h5>
-    </div>
-    <div class="card-body bg-light">
+    <div class="card-header">
+      <form style="display:none;">
+        {% csrf_token %}
+      </form>
+      <div class="card-header bg-beige text-center">
+        <h5 class="mb-0">Notas Devolutivas y Negativas</h5>
+      </div>
+      <div class="card-body bg-light">
         <div class="mt-4 text-center">
-        <div class="mb-3">
-          <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="registroMercantil">
-          <label class="form-check-label" for="registroMercantil">Registro Mercantil</label>
-        </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="devoluciones">
-            <label class="form-check-label" for="devoluciones">Devoluciones Procesadas</label>
+          <div class="mb-3">
+
+              <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="devolucionesMercantil">
+              <label class="form-check-label" for="registroMercantil">Registro Mercantil</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="devolucionespPro">
+              <label class="form-check-label" for="devoluciones">Devoluciones Procesadas</label>
+            </div>
+          </div>
+
+          <!-- Formulario de búsqueda -->
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <div class="col-auto">
+              <label for="buscarPor" class="fw-bold text-danger">BUSCAR POR:</label>
+            </div>
+            <div class="col-auto">
+              <select class="form-select" id="buscarPorDevoluciones">
+                <option value="0">AÑO</option>
+                <option value="1">N° Orden</option>
+                <option value="2">Propietario</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label for="buscarPor" class="fw-bold text-danger">Fecha:</label>
+            </div>
+            <div class="col-auto">
+              <select class="form-select" id="ComboboxDevolucionesanio">
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+              </select>
+            </div>
+            <div class="col-4">
+              <input type="text" class="form-control" placeholder="Ingresar su búsqueda..." id="textBusquedaD">
+            </div>
+            <div class="col-auto">
+              <button type="button" class="btn btn-primary" id="BuscarDevoluciones"> <i class="bi bi-search"></i>
+                Buscar</button>
+            </div>
+          </div>
+          <div class="mt-4">
+            <!-- Tabla de resultados -->
+            <div class="table-responsive">
+              <div style="max-height: 300px; overflow-y: auto; overflow-x: auto;">
+                <table class="table table-bordered table-hover table-striped align-middle" id="TableBuscarDevoluciones">
+                  <thead class="table-dark" style="font-size: 10px;">
+                    <tr>
+                      <th style='width: 8%;'></th>
+                      <th style='display: none;'>N°</th>
+                      <th>Id_Inscripcion</th>
+                      <th>Tipo</th>
+                      <th>No_Comprobante</th>
+                      <th>FechaRevision</th>
+                      <th>No_Repertorio</th>
+                      <th>ElaboradoPor</th>
+                      <th>A Favor</th>
+                      <th>Cliente</th>
+                      <th>Solicitado Por</th>
+                      <th>Estado</th>
+                      <th>IdComprobante</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+
           </div>
         </div>
-
-      <!-- Formulario de búsqueda -->
-      <form class="d-flex align-items-center gap-3 flex-wrap">
-        <div class="col-auto">
-          <label for="buscarPor" class="fw-bold text-danger">BUSCAR POR:</label>
-        </div>
-        <div class="col-auto">
-          <select class="form-select" id="buscarPor">
-            <option>AÑO</option>
-            <option>CLIENTE</option>
-            <option>NO COMPROBANTE</option>
-          </select>
-        </div>
-        <div class="col-auto">
-          <label for="buscarPor" class="fw-bold text-danger">Fecha:</label>
-        </div>
-        <div class="col-auto">
-          <select class="form-select" id="buscarPor">
-            <option>2025</option>
-            <option>2024</option>
-            <option>2023</option>
-          </select>
-        </div>
-        <div class="col-4">
-          <input type="text" class="form-control" placeholder="Ingresar su búsqueda...">
-        </div>
-
-        
-      
-      </form>
-      <div class="mt-4">
-        <!-- Tabla de resultados -->
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover table-striped align-middle">
-            <thead class="table-dark" style="font-size: 10px;">
-              <tr>
-                <th>Id_Inscripcion</th>
-                <th>Tipo</th>
-                <th>No_Comprobante</th>
-                <th>FechaRevision</th>
-                <th>No_Repertorio</th>
-                <th>ElaboradoPor</th>
-                <th>A Favor</th>
-                <th>Cliente</th>
-                <th>Solicitado Por</th>
-                <th>Estado</th>
-                <th>IdComprobante</th>
-              </tr>
-            </thead>
-            <tbody style="font-size: 10px;">
-              <tr>
-                <td>1202500112200</td>
-                <td>D</td>
-                <td>1125</td>
-                <td>10/06/2025 5:38:50 p. m.</td>
-                <td>1122</td>
-                <td>1</td>
-                <td>Argudo Gomez Laura Lucia</td>
-                <td>ARGUDO GOMEZ LAURA</td>
-                <td>ARGUDO GOMEZ LAURA</td>
-                <td>A</td>
-                <td>1111</td>
-              </tr>
-              <tr>
-                <td>1202500110800</td>
-                <td>D</td>
-                <td>1111</td>
-                <td>5/06/2025 12:56:22 p. m.</td>
-                <td>1108</td>
-                <td>4</td>
-                <td>Castro Cuji Johanna Elizabeth</td>
-                <td>Rodas Romero Edison</td>
-                <td>ARGUDO GOMEZ LAURA</td>
-                <td>A</td>
-                <td>1111</td>
-              </tr>
-              <!-- Puedes seguir agregando filas aquí -->
-            </tbody>
-          </table>
-        </div>
-
       </div>
     </div>
-  </div>
-</div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </body>
 
 </html>

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'Aplicaciones.Login',
     'Aplicaciones.MDI',
     'Aplicaciones.Inscripcion',
-    'Aplicaciones.Global'
+    'Aplicaciones.Global',
+    'Aplicaciones.ConfigBase'
 
 ]
 
