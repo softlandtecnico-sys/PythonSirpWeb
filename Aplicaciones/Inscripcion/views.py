@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import json
+import os
 from .models import BuscarDatos
+from Aplicaciones.Global.Utils.ListarCarpetasCompartidas import CarpetasDatos
 
 # Create your views here.
 
@@ -125,6 +127,21 @@ def BuscarDevoluciones(request):
             else:
              
                 return JsonResponse([{"Id_Inscripcion": 0, "mensaje": "No se encontraron datos"}], safe=False)
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+def ArchivoDocNDCertificado(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            param0 = data.get("param0") 
+            mTipoRegistro = param0[0]
+            pAño = param0[1:4]
+            listaCarpetas = CarpetasDatos.listar_carpetas_compartidas()
+            sCarpetaDevolutivas = os.path.join(listaCarpetas[0]["CarpetaDevolucion"],pAño,mTipoRegistro,param0)
+            print(sCarpetaDevolutivas)
+            return JsonResponse([{"Id_Inscripcion": 0, "mensaje": "No se encontraron datos"}], safe=False)
         except Exception as e:
             return JsonResponse([{"error": str(e)}], safe=False, status=500)
     return JsonResponse({"error": "Método no permitido"}, status=405)

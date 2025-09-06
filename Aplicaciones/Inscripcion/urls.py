@@ -25,5 +25,6 @@ urlpatterns = [
     path('ListarAsignacionCalidad/', views.ListarAsignacionCalidad, name="ListarAsignacionCalidad"), 
     path('ListarIngresoInscripciones/', views.ListarIngresoInscripciones, name="ListarIngresoInscripciones"), 
     path('BuscarDevoluciones/', views.BuscarDevoluciones, name="BuscarDevoluciones"), 
+    path('ArchivoDocNDCertificado/', views.ArchivoDocNDCertificado, name="ArchivoDocNDCertificado"), 
 
 ]

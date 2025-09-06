@@ -29,8 +29,6 @@ async function BuscarDevoluciones() {
     else {
         mBuscar = valor;
     }
-
-
     fetch("/inscripcion/BuscarDevoluciones/", {
         method: "POST",
         headers: {
@@ -95,8 +93,53 @@ function llenar_tabla_ordenDevo(datos) {
     let contadorFila = 0;
     for (let recorrer = 0; recorrer < datos.length; recorrer++) {
         contadorFila++;
-        $("<tr><td><button class='btn btn-primary me-2 mb-2' onclick='consultarRevisionOrden(\"" + datos[recorrer].IdComprobante + "\",\"" + datos[recorrer].No_Comprobate + "\")'><i class='bi bi-eye'></i> Ver</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].Id_Inscripcion + " </td><td class='td-texto'> " + datos[recorrer].Tipo + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'> " + datos[recorrer].FechaRevision + " </td><td class='td-texto'>" + datos[recorrer].No_Repertorio + "</td><td class='td-texto'>" + datos[recorrer].ElaboradoPor + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].Cliente + "</td><td class='td-texto'>" + datos[recorrer].SolicitadoPor + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].IdComprobante + "</td></tr>").appendTo('#TableBuscarDevoluciones');
+        $("<tr><td><button class='btn btn-primary me-2 mb-2' onclick='ArchivoDocNDCertificado(\"" + datos[recorrer].Id_Inscripcion + "\")'><i class='bi bi-eye'></i> Ver</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].Id_Inscripcion + " </td><td class='td-texto'> " + datos[recorrer].Tipo + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'> " + datos[recorrer].FechaRevision + " </td><td class='td-texto'>" + datos[recorrer].No_Repertorio + "</td><td class='td-texto'>" + datos[recorrer].ElaboradoPor + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].Cliente + "</td><td class='td-texto'>" + datos[recorrer].SolicitadoPor + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].IdComprobante + "</td></tr>").appendTo('#TableBuscarDevoluciones');
     }
+}
+function ArchivoDocNDCertificado(param0Entrada){
+    fetch("/inscripcion/ArchivoDocNDCertificado/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+        },
+        body: JSON.stringify({
+            param0: param0Entrada
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            var datos = data;
+            if (datos.length > 0) {
+                if (datos.length === 1 && datos[0].Id_Inscripcion === 0) {
+                     elimnar_todo_filasDevo("TableBuscarDevoluciones")
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: datos[0].mensaje,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else {
+                    llenar_tabla_ordenDevo(datos);
+                }
+            }
+            else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Error',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
+        .catch(err => {
+            console.log("Ocurrió un error:", err);
+
+        });
+
 }
 function elimnar_todo_filasDevo(id) {
     if (document.getElementById(id).rows.length >= 1) {
