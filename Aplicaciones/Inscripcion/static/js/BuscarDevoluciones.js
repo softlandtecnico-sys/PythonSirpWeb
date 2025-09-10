@@ -46,7 +46,7 @@ async function BuscarDevoluciones() {
             var datos = data;
             if (datos.length > 0) {
                 if (datos.length === 1 && datos[0].Id_Inscripcion === 0) {
-                     elimnar_todo_filasDevo("TableBuscarDevoluciones")
+                    elimnar_todo_filasDevo("TableBuscarDevoluciones")
                     Swal.fire({
                         position: 'top-end',
                         icon: 'info',
@@ -96,7 +96,7 @@ function llenar_tabla_ordenDevo(datos) {
         $("<tr><td><button class='btn btn-primary me-2 mb-2' onclick='ArchivoDocNDCertificado(\"" + datos[recorrer].Id_Inscripcion + "\")'><i class='bi bi-eye'></i> Ver</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].Id_Inscripcion + " </td><td class='td-texto'> " + datos[recorrer].Tipo + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'> " + datos[recorrer].FechaRevision + " </td><td class='td-texto'>" + datos[recorrer].No_Repertorio + "</td><td class='td-texto'>" + datos[recorrer].ElaboradoPor + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].Cliente + "</td><td class='td-texto'>" + datos[recorrer].SolicitadoPor + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].IdComprobante + "</td></tr>").appendTo('#TableBuscarDevoluciones');
     }
 }
-function ArchivoDocNDCertificado(param0Entrada){
+function ArchivoDocNDCertificado(param0Entrada) {
     fetch("/inscripcion/ArchivoDocNDCertificado/", {
         method: "POST",
         headers: {
@@ -111,18 +111,27 @@ function ArchivoDocNDCertificado(param0Entrada){
         .then(data => {
             var datos = data;
             if (datos.length > 0) {
-                if (datos.length === 1 && datos[0].Id_Inscripcion === 0) {
-                     elimnar_todo_filasDevo("TableBuscarDevoluciones")
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'info',
-                        title: datos[0].mensaje,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                if (datos[0].mensaje === 1) {
+                    const pdfBase64 = data[0].archivo_base64;
+                    const byteCharacters = atob(pdfBase64);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], { type: "application/pdf" });
+                    const pdfUrl = URL.createObjectURL(blob);
+                    window.open(pdfUrl, "_blank");
+
                 }
-                else {
-                    llenar_tabla_ordenDevo(datos);
+                else if(datos[0].mensaje === 0){
+                    Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'NO se encuentra el documento',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 }
             }
             else {

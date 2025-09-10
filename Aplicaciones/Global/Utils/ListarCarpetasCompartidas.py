@@ -4,23 +4,9 @@ from Aplicaciones.Global.Utils.ConfigBase import ConfigBase
 
 class CarpetasDatos:
     def listar_carpetas_compartidas():
-        lista = []
-        print('holaaaaaaaaaaaaaa')
-       # BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        #print(BASE_DIR)
-        #print('-------------------------------------')
-        #config_path = os.path.join(BASE_DIR, "ConfigBase", "Softland.cfg")
-        #print(config_path)
-        #print('-------------------------------------')
-        #config = configparser.ConfigParser()
-        #config.read(config_path)
-        #print('---------ruta----------------------------')
-     
+        lista = []    
         config=ConfigBase()
-        carpeta_principal= config.carpeta_compartida
-        #carpeta_principal = Encriptador.des_encriptar_caracter(config["DEFAULT"].get("CARPETA"),inicio,100)
-    
-      
+        carpeta_principal= config.carpeta_compartida   
         regis = {
             "CarpetaPrincipal": carpeta_principal,
             "CarpetaCertificado": os.path.join(carpeta_principal, "CertificadosTemp"),
@@ -60,8 +46,5 @@ class CarpetasDatos:
         }
 
         lista.append(regis)
-        print(lista)
         return lista
         
-#if __name__ == "__main__":
- #  CarpetasDatos.listar_carpetas_compartidas()

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import json
 import os
+import base64
 from .models import BuscarDatos
 from Aplicaciones.Global.Utils.ListarCarpetasCompartidas import CarpetasDatos
 
@@ -137,11 +138,18 @@ def ArchivoDocNDCertificado(request):
             data = json.loads(request.body)
             param0 = data.get("param0") 
             mTipoRegistro = param0[0]
-            pAño = param0[1:4]
+            pAño = param0[1:5]
             listaCarpetas = CarpetasDatos.listar_carpetas_compartidas()
-            sCarpetaDevolutivas = os.path.join(listaCarpetas[0]["CarpetaDevolucion"],pAño,mTipoRegistro,param0)
+            sCarpetaDevolutivas = os.path.join(listaCarpetas[0]["CarpetaDevolucion"],pAño,mTipoRegistro,f"{param0}.pdf")
             print(sCarpetaDevolutivas)
-            return JsonResponse([{"Id_Inscripcion": 0, "mensaje": "No se encontraron datos"}], safe=False)
+            if os.path.exists(sCarpetaDevolutivas):
+                with open(sCarpetaDevolutivas, "rb") as f:
+                    pdf_bytes = f.read()  # <-- aquí tienes el PDF en bytes
+                    pdf_base64 = base64.b64encode(pdf_bytes).decode('utf-8')
+                    return JsonResponse([{"archivo_base64": pdf_base64, "mensaje": 1}], safe=False)
+            else:
+                 return JsonResponse([{"archivo_base64": None, "mensaje": 0}],safe=False)
+
         except Exception as e:
             return JsonResponse([{"error": str(e)}], safe=False, status=500)
     return JsonResponse({"error": "Método no permitido"}, status=405)

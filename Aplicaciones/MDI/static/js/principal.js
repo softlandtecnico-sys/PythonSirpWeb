@@ -100,11 +100,6 @@ function crearIframe(page, ancho, largo = "400px") {
   iframe.style.height = largo;
   iframe.style.margin = "2px";
   iframe.style.border = "0";
-
-  //iframe.style.transform = "scale(0.9)";
-  //iframe.setAttribute("scrolling", "no");
-
-
   // Contenedor
   const contenedor = document.createElement("div");
   contenedor.style.width ="100%";

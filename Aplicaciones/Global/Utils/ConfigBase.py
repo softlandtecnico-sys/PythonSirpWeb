@@ -17,14 +17,10 @@ class ConfigBase:
 
     def leer_archivo(nombre_linea: str):
      nombre = ""
-     print(nombre_linea)
-     print("------------nombre linea--------")
      BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
      nombre_archivo = os.path.join(BASE_DIR, "ConfigBase", "Softland.cfg")
      config = configparser.ConfigParser()
      config.read(nombre_archivo)
-     print(nombre_archivo)
-     print("------------nombre del archivo--------")
      try:
             with open(nombre_archivo, "r", encoding="utf-8") as archivo:
                 for linea in archivo:
@@ -33,13 +29,9 @@ class ConfigBase:
                     inicio = linea.find(nombre_linea)
                     inicio = 1
                     print(inicio)
-                    if inicio > 0:  # En VB InStr > 0, en Python find devuelve -1 si no existe
-                        # Extraer lo que viene después del nombre de la línea
-                        #valor = linea[inicio + len(nombre_linea): inicio + len(nombre_linea) + 100]
-                        valor = ConfigBase.Mid(linea, inicio + len(nombre_linea), 100)
-                        # Llamar a la función de desencriptar
-                        nombre = Encriptador.des_encriptar_cadena(valor)  
-                        #des_encriptar_cadena(valor.strip())
+                    if inicio > 0:                       
+                        valor = ConfigBase.Mid(linea, inicio + len(nombre_linea), 100)                      
+                        nombre = Encriptador.des_encriptar_cadena(valor)           
             return nombre
      except Exception as ex:
             print(f"Error: {ex}")  # En VB se mostraba MessageBox
@@ -69,7 +61,7 @@ class ConfigBase:
 
     @property
     def carpeta_compartida(self):
-        print("dddddddddddddddddddddddddddddd")
+
         return ConfigBase.leer_archivo("CARPETA: ")
 
     @property
