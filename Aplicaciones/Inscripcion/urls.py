@@ -26,5 +26,7 @@ urlpatterns = [
     path('ListarIngresoInscripciones/', views.ListarIngresoInscripciones, name="ListarIngresoInscripciones"), 
     path('BuscarDevoluciones/', views.BuscarDevoluciones, name="BuscarDevoluciones"), 
     path('ArchivoDocNDCertificado/', views.ArchivoDocNDCertificado, name="ArchivoDocNDCertificado"), 
+    path('ArchivoDocTramiteInscripcion/', views.ArchivoDocTramiteInscripcion, name="ArchivoDocTramiteInscripcion"), 
+    path('ArchivoDocTramiteDevuelto/', views.ArchivoDocTramiteDevuelto, name="ArchivoDocTramiteDevuelto"), 
 
 ]

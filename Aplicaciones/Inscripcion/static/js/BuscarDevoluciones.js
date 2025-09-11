@@ -124,15 +124,15 @@ function ArchivoDocNDCertificado(param0Entrada) {
                     window.open(pdfUrl, "_blank");
 
                 }
-                else if(datos[0].mensaje === 0){
+                else if(datos[0].mensaje === 0)
+                    {
                     Swal.fire({
                     position: 'top-end',
                     icon: 'info',
-                    title: 'NO se encuentra el documento',
+                    title: 'No se encuentra el documento',
                     showConfirmButton: false,
-                    timer: 1500
-                });
-                }
+                    timer: 1500});
+                    }
             }
             else {
                 Swal.fire({

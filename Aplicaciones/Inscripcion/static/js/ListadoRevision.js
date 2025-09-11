@@ -13,9 +13,18 @@ $(document).ready(function () {
             ListadoRevision("1")
         }
     });
+    $("#idBuscarDoc").click(function () {
+        ObtenerDocumentoInscripcion();
+    });
+     $("#idBuscarDocDevolutiva").click(function () {
+        ObtenerArchivoDocTramiteDevuelto();
+    });
+
+    
 });
 
-async function ListadoRevision(parametro) {
+var parametroConsulta="";
+async function ListadoRevision(parametroConsultaEntrada) {
 
     fetch("/inscripcion/ListadoRevision/", {
         method: "POST",
@@ -24,7 +33,7 @@ async function ListadoRevision(parametro) {
             "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
         },
         body: JSON.stringify({
-            param0: parametro
+            param0: parametroConsultaEntrada
 
         })
     })
@@ -65,8 +74,120 @@ function getCookieL(name) {
     }
     return cookieValue;
 }
+function ObtenerArchivoDocTramiteDevuelto()
+{
+    fetch("/inscripcion/ArchivoDocTramiteDevuelto/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+        },
+        body: JSON.stringify({
+            param0: parametroConsulta
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            var datos = data;
+            if (datos.length > 0) {
+                if (datos[0].mensaje === 1) {
+                    const pdfBase64 = data[0].archivo_base64;
+                    const byteCharacters = atob(pdfBase64);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], { type: "application/pdf" });
+                    const pdfUrl = URL.createObjectURL(blob);
+                    window.open(pdfUrl, "_blank");
+
+                }
+                else if(datos[0].mensaje === 0)
+                    {
+                    Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'No se encuentra el documento',
+                    showConfirmButton: false,
+                    timer: 1500});
+                    }
+            }
+            else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Error',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
+        .catch(err => {
+            console.log("Ocurrió un error:", err);
+
+        });
+
+}
+function ObtenerDocumentoInscripcion()
+{
+    fetch("/inscripcion/ArchivoDocTramiteInscripcion/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+        },
+        body: JSON.stringify({
+            param0: parametroConsulta
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            var datos = data;
+            if (datos.length > 0) {
+                if (datos[0].mensaje === 1) {
+                    const pdfBase64 = data[0].archivo_base64;
+                    const byteCharacters = atob(pdfBase64);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], { type: "application/pdf" });
+                    const pdfUrl = URL.createObjectURL(blob);
+                    window.open(pdfUrl, "_blank");
+
+                }
+                else if(datos[0].mensaje === 0)
+                    {
+                    Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'No se encuentra el documento',
+                    showConfirmButton: false,
+                    timer: 1500});
+                    }
+            }
+            else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Error',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
+        .catch(err => {
+            console.log("Ocurrió un error:", err);
+
+        });
+
+}
 function consultarRevisionOrden(parameter0, parameter1){
-alert(parameter0);
+    
+    parametroConsulta=parameter0;
+
 }
 function llenar_tabla_orden(datos) {
     elimnar_todo_filas("TListarRevision")

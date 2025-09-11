@@ -5,6 +5,7 @@ import os
 import base64
 from .models import BuscarDatos
 from Aplicaciones.Global.Utils.ListarCarpetasCompartidas import CarpetasDatos
+from Aplicaciones.Global.Utils.Digitalizacion import Digitalizacion
 
 # Create your views here.
 
@@ -141,9 +142,67 @@ def ArchivoDocNDCertificado(request):
             pAño = param0[1:5]
             listaCarpetas = CarpetasDatos.listar_carpetas_compartidas()
             sCarpetaDevolutivas = os.path.join(listaCarpetas[0]["CarpetaDevolucion"],pAño,mTipoRegistro,f"{param0}.pdf")
-            print(sCarpetaDevolutivas)
             if os.path.exists(sCarpetaDevolutivas):
                 with open(sCarpetaDevolutivas, "rb") as f:
+                    pdf_bytes = f.read()  # <-- aquí tienes el PDF en bytes
+                    pdf_base64 = base64.b64encode(pdf_bytes).decode('utf-8')
+                    return JsonResponse([{"archivo_base64": pdf_base64, "mensaje": 1}], safe=False)
+            else:
+                 return JsonResponse([{"archivo_base64": None, "mensaje": 0}],safe=False)
+
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+def ArchivoDocTramiteInscripcion(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  
+            param0 = data.get("param0") 
+            mTipoRegistro = param0[0]
+            ptxtLibro = param0[0:1]
+            ptxtInscripcion = param0[6:12]
+            pAño = param0[2:6]
+            ptxtInscripcionsalida= str(ptxtInscripcion).zfill(6)[-6:]
+            pNombredelArchivo= f"{ptxtLibro}1{pAño}{ptxtInscripcionsalida}"        
+            listaCarpetas = CarpetasDatos.listar_carpetas_compartidas()
+            sCarpetaTramite = os.path.join(listaCarpetas[0]["CarpetaTramite"],f"{pNombredelArchivo}.pdf")
+            #print(sCarpetaTramite)
+            if os.path.exists(sCarpetaTramite):
+                with open(sCarpetaTramite, "rb") as f:
+                    pdf_bytes = f.read()  # <-- aquí tienes el PDF en bytes
+                    pdf_base64 = base64.b64encode(pdf_bytes).decode('utf-8')
+                    return JsonResponse([{"archivo_base64": pdf_base64, "mensaje": 1}], safe=False)
+            else:
+                 return JsonResponse([{"archivo_base64": None, "mensaje": 0}],safe=False)
+
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+def ArchivoDocTramiteDevuelto(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  
+            param0 = data.get("param0") 
+            mTipoRegistro = param0[0]
+            ptxtLibro = param0[0:1]
+            ptxtInscripcion = param0[6:12]
+            pAño = param0[2:6]
+            ptxtInscripcionsalida= str(ptxtInscripcion).zfill(6)[-6:]
+            pNombredelArchivo= f"{ptxtLibro}1{pAño}{ptxtInscripcionsalida}"                   
+            listaCarpetas = CarpetasDatos.listar_carpetas_compartidas()          
+            mCantDocDevueltos = Digitalizacion.CantidaArchivosPdf(os.path.join(listaCarpetas[0]["CarpetaHD"],pAño,f"{pNombredelArchivo}.pdf"))
+            print("-----probando hd----")
+            #mSufijo = Right(("00" & (mCantDocDevueltos - 1).ToString), 2)
+            mSufijo = "00"
+            print(os.path.join(listaCarpetas[0]["CarpetaHD"],pAño,f"{pNombredelArchivo}{mSufijo}.pdf"))
+            print(mSufijo)
+            
+            sCarpetaTramite = os.path.join(listaCarpetas[0]["CarpetaHD"],pAño,f"{pNombredelArchivo}{mSufijo}.pdf")
+          
+            if os.path.exists(sCarpetaTramite):
+                with open(sCarpetaTramite, "rb") as f:
                     pdf_bytes = f.read()  # <-- aquí tienes el PDF en bytes
                     pdf_base64 = base64.b64encode(pdf_bytes).decode('utf-8')
                     return JsonResponse([{"archivo_base64": pdf_base64, "mensaje": 1}], safe=False)

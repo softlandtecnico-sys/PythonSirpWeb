@@ -20,8 +20,7 @@ class Encriptador:
     
     @staticmethod       
     def des_encriptar_caracter(caracter: str, variable: int, a_indice: int):
-      print({caracter}, {variable}, {a_indice})
-      print('---------parametrod de entrada des_encriptar_caracter----------------------------')
+
       if caracter in Encriptador.patron_encripta:
         pos = Encriptador.patron_encripta.index(caracter)
 

@@ -27,8 +27,7 @@ class ConfigBase:
             
                     # Busca si la línea contiene el texto buscado
                     inicio = linea.find(nombre_linea)
-                    inicio = 1
-                    print(inicio)
+                    inicio = 1          
                     if inicio > 0:                       
                         valor = ConfigBase.Mid(linea, inicio + len(nombre_linea), 100)                      
                         nombre = Encriptador.des_encriptar_cadena(valor)           
