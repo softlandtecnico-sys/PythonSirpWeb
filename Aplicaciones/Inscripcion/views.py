@@ -193,8 +193,6 @@ def ArchivoDocTramiteDevuelto(request):
             pNombredelArchivo= f"{ptxtLibro}1{pAño}{ptxtInscripcionsalida}"                   
             listaCarpetas = CarpetasDatos.listar_carpetas_compartidas()          
             mCantDocDevueltos = Digitalizacion.CantidaArchivosPdf(os.path.join(listaCarpetas[0]["CarpetaHD"],pAño,f"{pNombredelArchivo}.pdf"))
-            print("-----probando hd----")
-            #mSufijo = Right(("00" & (mCantDocDevueltos - 1).ToString), 2)
             mSufijo = "00"
             print(os.path.join(listaCarpetas[0]["CarpetaHD"],pAño,f"{pNombredelArchivo}{mSufijo}.pdf"))
             print(mSufijo)
@@ -210,5 +208,5 @@ def ArchivoDocTramiteDevuelto(request):
                  return JsonResponse([{"archivo_base64": None, "mensaje": 0}],safe=False)
 
         except Exception as e:
-            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+            return JsonResponse([{"error": str(e),"mensaje": -1}], safe=False, status=500)
     return JsonResponse({"error": "Método no permitido"}, status=405)

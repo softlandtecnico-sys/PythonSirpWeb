@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+from Aplicaciones.Global.Utils.ConfigBase import ConfigBase
+config=ConfigBase()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -78,13 +79,29 @@ WSGI_APPLICATION = 'PythonSirpWeb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'mssql',
+#       'NAME': 'SIRP',
+#        'USER': 'sa',
+#        'PASSWORD': '123',
+#        'HOST': '192.168.0.3',  # o el nombre del servidor
+#        'PORT': '1433',
+
+#        'OPTIONS': {
+#            'driver': 'ODBC Driver 17 for SQL Server',  # revisa que coincida con tu versión instalada
+#            'unicode_results': False,
+#        },
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'SIRP',
-        'USER': 'sa',
-        'PASSWORD': '123',
-        'HOST': '192.168.0.7',  # o el nombre del servidor
+        'NAME': config.nombre_base_datos,
+        'USER': config.nombre_usuario,
+        'PASSWORD': config.password_base,
+        'HOST': config.nombre_servidor,  # o el nombre del servidor
         'PORT': '1433',
 
         'OPTIONS': {

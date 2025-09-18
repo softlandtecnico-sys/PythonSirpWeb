@@ -7,6 +7,7 @@ class CarpetasDatos:
         lista = []    
         config=ConfigBase()
         carpeta_principal= config.carpeta_compartida   
+        print(carpeta_principal)
         regis = {
             "CarpetaPrincipal": carpeta_principal,
             "CarpetaCertificado": os.path.join(carpeta_principal, "CertificadosTemp"),

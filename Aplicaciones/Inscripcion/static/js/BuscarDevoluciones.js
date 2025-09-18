@@ -124,7 +124,7 @@ function ArchivoDocNDCertificado(param0Entrada) {
                     window.open(pdfUrl, "_blank");
 
                 }
-                else if(datos[0].mensaje === 0)
+                else if(Number(datos[0].mensaje) === 0)
                     {
                     Swal.fire({
                     position: 'top-end',
