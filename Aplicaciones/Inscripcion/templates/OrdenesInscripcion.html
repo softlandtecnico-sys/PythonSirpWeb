@@ -42,7 +42,7 @@
     <!-- Botones -->
     <div class="mb-4 text-center">
       <button class="btn btn-danger me-2 mb-2" id="idBuscarDoc">Documento</button>
-      <button class="btn btn-warning me-2 mb-2">Notas Inscripción</button>
+      <button class="btn btn-warning me-2 mb-2" id="idnotasInscripcion">Notas Inscripción</button>
       <button class="btn btn-secondary me-2 mb-2">Apuntes Revisión</button>
       <button class="btn btn-info text-white me-2 mb-2" id="idBuscarDocDevolutiva">Doc. Devuelto</button>
       <button class="btn btn-primary me-2 mb-2">Orden Trabajo</button>
@@ -78,5 +78,24 @@
       </div>
     </div>
   </div>
+  <!-- Modal -->
+
+    <div id="notasModal" tabindex="-1" aria-labelledby="notasModalLabel" aria-hidden="true"
+     style="position: fixed; top: 0; left: 0;right: 0;
+            display: none; z-index: 9999; cursor: default;">
+
+  <div class="modal-dialog modal-lg" style="margin: 0;">
+    <div class="modal-content" style="background-color:#faebd7; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-radius: 10px;">
+      <div class="modal-header" style="cursor: move;" id="modalHeader">
+        <h5 class="modal-title" id="notasModalLabel">NOTAS</h5>
+        <button type="button" class="btn btn-danger btn-sm" id="idcerraModal">X</button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" rows="8" style="background-color:#ffffe0;" id="idNotas"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+ 
   </body>
   </html>

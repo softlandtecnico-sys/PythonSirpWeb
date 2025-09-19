@@ -19,11 +19,53 @@ $(document).ready(function () {
      $("#idBuscarDocDevolutiva").click(function () {
         ObtenerArchivoDocTramiteDevuelto();
     });
+   
+     $("#idnotasInscripcion").click(function () {
+        mostrarModal();
+    });
+    $("#idcerraModal").click(function () {
+        ocultarModal();
+    });
 
-    
+const modal = document.getElementById('notasModal');
+ const header = document.getElementById('modalHeader');
+ let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  header.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    offsetX = e.clientX - modal.offsetLeft;
+    offsetY = e.clientY - modal.offsetTop;
+    modal.style.transform = "none"; // Desactiva el centrado automático
+    document.body.style.userSelect = "none"; // Evita seleccionar texto al arrastrar
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+      modal.style.left = e.clientX - offsetX + "px";
+      modal.style.top = e.clientY - offsetY + "px";
+    }
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    document.body.style.userSelect = "auto";
+  });
 });
 
 var parametroConsulta="";
+
+function mostrarModal(){
+document.getElementById('notasModal').style.display="block";
+    
+}
+function ocultarModal()
+{
+document.getElementById('notasModal').style.display="none";
+
+}
+
 async function ListadoRevision(parametroConsultaEntrada) {
 
     fetch("/inscripcion/ListadoRevision/", {

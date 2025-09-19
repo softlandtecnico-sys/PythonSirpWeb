@@ -61,6 +61,24 @@ def ListadoRevision(request):
 
     return JsonResponse({"error": "Método no permitido"}, status=405)
 
+def ListarNotaInscripcion(request):     
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            param0 = data.get("param0")  
+            param1 = data.get("param1")  
+            param2 = data.get("param2")  
+            consultas = BuscarDatos()            
+            datos = consultas.BuscarDevolucionesDatos("ListarNota", [param0,param1,param2])
+            if datos:            
+                datos_list = [dict(row) for row in datos]               
+                return JsonResponse(datos_list, safe=False)
+            else:             
+                return JsonResponse([{"Id_Inscripcion": 0, "mensaje": "No se encontraron datos"}], safe=False)
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
 def MostrarOrdenesPendientes(request):     
     if request.method == "POST":
         try:
@@ -126,8 +144,7 @@ def BuscarDevoluciones(request):
             if datos:            
                 datos_list = [dict(row) for row in datos]               
                 return JsonResponse(datos_list, safe=False)
-            else:
-             
+            else:             
                 return JsonResponse([{"Id_Inscripcion": 0, "mensaje": "No se encontraron datos"}], safe=False)
         except Exception as e:
             return JsonResponse([{"error": str(e)}], safe=False, status=500)
@@ -166,8 +183,7 @@ def ArchivoDocTramiteInscripcion(request):
             ptxtInscripcionsalida= str(ptxtInscripcion).zfill(6)[-6:]
             pNombredelArchivo= f"{ptxtLibro}1{pAño}{ptxtInscripcionsalida}"        
             listaCarpetas = CarpetasDatos.listar_carpetas_compartidas()
-            sCarpetaTramite = os.path.join(listaCarpetas[0]["CarpetaTramite"],f"{pNombredelArchivo}.pdf")
-            #print(sCarpetaTramite)
+            sCarpetaTramite = os.path.join(listaCarpetas[0]["CarpetaTramite"],f"{pNombredelArchivo}.pdf")    
             if os.path.exists(sCarpetaTramite):
                 with open(sCarpetaTramite, "rb") as f:
                     pdf_bytes = f.read()  # <-- aquí tienes el PDF en bytes
