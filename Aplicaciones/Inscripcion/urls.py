@@ -28,5 +28,7 @@ urlpatterns = [
     path('ArchivoDocNDCertificado/', views.ArchivoDocNDCertificado, name="ArchivoDocNDCertificado"), 
     path('ArchivoDocTramiteInscripcion/', views.ArchivoDocTramiteInscripcion, name="ArchivoDocTramiteInscripcion"), 
     path('ArchivoDocTramiteDevuelto/', views.ArchivoDocTramiteDevuelto, name="ArchivoDocTramiteDevuelto"), 
+    path('ListarNotaInscripcion/', views.ListarNotaInscripcion, name="ListarNotaInscripcion"), 
+    path('ListarApuntesInscripcion/', views.ListarApuntesInscripcion, name="ListarApuntesInscripcion"), 
 
 ]

@@ -93,7 +93,7 @@ function llamar_modal(page)
 
 
 }
-function crearIframe(page, ancho, largo = "400px") {
+function crearIframe(page, ancho, largo = "600px") {
   // Crear el iframe
   const iframe = document.createElement("iframe");
   iframe.style.width = ancho;

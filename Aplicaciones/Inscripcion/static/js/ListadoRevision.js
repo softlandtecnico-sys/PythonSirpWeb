@@ -16,53 +16,149 @@ $(document).ready(function () {
     $("#idBuscarDoc").click(function () {
         ObtenerDocumentoInscripcion();
     });
-     $("#idBuscarDocDevolutiva").click(function () {
+    $("#idBuscarDocDevolutiva").click(function () {
         ObtenerArchivoDocTramiteDevuelto();
     });
-   
-     $("#idnotasInscripcion").click(function () {
-        mostrarModal();
+
+    $("#idnotasInscripcion").click(function () {
+        ListarNota();
     });
     $("#idcerraModal").click(function () {
-        ocultarModal();
+        ocultarModal('notasModal');
+    });
+     $("#idapuntesInscripcion").click(function () {
+        ListarApuntes();
+    });
+    $("#idApuntescerraModal").click(function () {
+        ocultarModal('apuntesModal');
+    });
+     $("#idComprobanteCerrar").click(function () {
+        ocultarModal('idModalComprobante');
     });
 
-const modal = document.getElementById('notasModal');
- const header = document.getElementById('modalHeader');
- let isDragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
+    // Llamas la función para cada modal que tengas
+hacerModalArrastrable("notasModal", "modalHeader");
+hacerModalArrastrable("apuntesModal", "apuntesHeader");
+hacerModalArrastrable("idModalComprobante", "comprobantetesHeader");
 
-  header.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    offsetX = e.clientX - modal.offsetLeft;
-    offsetY = e.clientY - modal.offsetTop;
-    modal.style.transform = "none"; // Desactiva el centrado automático
-    document.body.style.userSelect = "none"; // Evita seleccionar texto al arrastrar
-  });
 
-  document.addEventListener("mousemove", (e) => {
-    if (isDragging) {
-      modal.style.left = e.clientX - offsetX + "px";
-      modal.style.top = e.clientY - offsetY + "px";
-    }
-  });
-
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    document.body.style.userSelect = "auto";
-  });
 });
 
-var parametroConsulta="";
+var parametroConsulta = "";
 
-function mostrarModal(){
-document.getElementById('notasModal').style.display="block";
-    
-}
-function ocultarModal()
+function ListarApuntes()
 {
-document.getElementById('notasModal').style.display="none";
+     fetch("/inscripcion/ListarApuntesInscripcion/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+        },
+        body: JSON.stringify({
+            param1: parametroConsulta
+
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            var datos = data;
+            let texto = "";
+            if (datos.length > 0) {
+
+                if (Number(datos[0].IdComprobante) != 0) {
+                    for (let recorrer = 0; recorrer < datos.length; recorrer++) {
+                        texto += datos[recorrer].Apunte + "\n\n";
+                    }
+                    document.getElementById('idApuntes').innerHTML = texto
+                    document.getElementById('apuntesModal').style.display = "block";
+                }
+                else if (Number(datos[0].IdComprobante) === 0) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'El comprobante no tiene apuntes registrados',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+            else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Error de consulta',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
+        .catch(err => {
+            console.log("Ocurrió un error:", err);
+
+        });
+
+}
+function ListarNota() {
+
+    fetch("/inscripcion/ListarNotaInscripcion/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+        },
+        body: JSON.stringify({
+            param1: parametroConsulta
+
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            var datos = data;
+            let texto = "";
+
+            if (datos.length > 0) {
+
+                if (Number(datos[0].IdComprobante) != 0) {
+                    for (let recorrer = 0; recorrer < datos.length; recorrer++) {
+                        texto += datos[recorrer].Nota + "\n\n";
+                    }
+                    document.getElementById('idNotas').innerHTML = texto
+                    document.getElementById('notasModal').style.display = "block";
+                }
+                else if (Number(datos[0].IdComprobante) === 0) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'El comprobante no tiene notas registrados',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+
+                }
+            }
+            else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Error de consulta',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
+        .catch(err => {
+            console.log("Ocurrió un error:", err);
+
+        });
+
+
+}
+
+function ocultarModal(idPamatro) {
+    
+
+    document.getElementById(idPamatro).style.display = "none";
 
 }
 
@@ -83,7 +179,7 @@ async function ListadoRevision(parametroConsultaEntrada) {
         .then(data => {
             var datos = data;
             if (datos.length > 0) {
-       
+
                 llenar_tabla_orden(datos);
             }
             else {
@@ -116,8 +212,7 @@ function getCookieL(name) {
     }
     return cookieValue;
 }
-function ObtenerArchivoDocTramiteDevuelto()
-{
+function ObtenerArchivoDocTramiteDevuelto() {
     fetch("/inscripcion/ArchivoDocTramiteDevuelto/", {
         method: "POST",
         headers: {
@@ -145,15 +240,15 @@ function ObtenerArchivoDocTramiteDevuelto()
                     window.open(pdfUrl, "_blank");
 
                 }
-                else if(Number(datos[0].mensaje) === 0)
-                    {
+                else if (Number(datos[0].mensaje) === 0) {
                     Swal.fire({
-                    position: 'top-end',
-                    icon: 'info',
-                    title: 'No se encuentra el documento',
-                    showConfirmButton: false,
-                    timer: 1500});
-                    }
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'No se encuentra el documento',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             }
             else {
                 Swal.fire({
@@ -171,8 +266,7 @@ function ObtenerArchivoDocTramiteDevuelto()
         });
 
 }
-function ObtenerDocumentoInscripcion()
-{
+function ObtenerDocumentoInscripcion() {
     fetch("/inscripcion/ArchivoDocTramiteInscripcion/", {
         method: "POST",
         headers: {
@@ -200,15 +294,15 @@ function ObtenerDocumentoInscripcion()
                     window.open(pdfUrl, "_blank");
 
                 }
-                else if(datos[0].mensaje === 0)
-                    {
+                else if (datos[0].mensaje === 0) {
                     Swal.fire({
-                    position: 'top-end',
-                    icon: 'info',
-                    title: 'No se encuentra el documento',
-                    showConfirmButton: false,
-                    timer: 1500});
-                    }
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'No se encuentra el documento',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             }
             else {
                 Swal.fire({
@@ -226,9 +320,9 @@ function ObtenerDocumentoInscripcion()
         });
 
 }
-function consultarRevisionOrden(parameter0, parameter1){
-    
-    parametroConsulta=parameter0;
+function consultarRevisionOrden(parameter0, parameter1) {
+
+    parametroConsulta = parameter0;
 
 }
 function llenar_tabla_orden(datos) {
@@ -236,7 +330,7 @@ function llenar_tabla_orden(datos) {
     let contadorFila = 0;
     for (let recorrer = 0; recorrer < datos.length; recorrer++) {
         contadorFila++;
-        $("<tr><td><button class='btn btn-primary me-2 mb-2' onclick='consultarRevisionOrden(\"" + datos[recorrer].IdComprobante  + "\",\"" + datos[recorrer].No_Comprobate + "\")'>Selecionar</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto' style='display: none;'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].Registro + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'>" + datos[recorrer].No_Doc + "</td><td class='td-texto'>" + datos[recorrer].Concepto + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].ValorPagar + "</td><td class='td-texto'>" + datos[recorrer].Repertorio + "</td><td class='td-texto'>" + datos[recorrer].Fecha + "</td><td class='td-texto'>" + datos[recorrer].Cuantia + "</td><td class='td-texto'>" + datos[recorrer].FechaEntrega + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].CantidadTotal + "</td><td class='td-texto' style='display: none;'>" + datos[recorrer].Id_Usuario + "</td><td class='td-texto' style='display: none;'>" + "" + "</td></tr>").appendTo('#TListarRevision');
+        $("<tr><td><button class='btn btn-primary me-2 mb-2' onclick='consultarRevisionOrden(\"" + datos[recorrer].IdComprobante + "\",\"" + datos[recorrer].No_Comprobate + "\")'>Selecionar</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto' style='display: none;'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].Registro + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'>" + datos[recorrer].No_Doc + "</td><td class='td-texto'>" + datos[recorrer].Concepto + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].ValorPagar + "</td><td class='td-texto'>" + datos[recorrer].Repertorio + "</td><td class='td-texto'>" + datos[recorrer].Fecha + "</td><td class='td-texto'>" + datos[recorrer].Cuantia + "</td><td class='td-texto'>" + datos[recorrer].FechaEntrega + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].CantidadTotal + "</td><td class='td-texto' style='display: none;'>" + datos[recorrer].Id_Usuario + "</td><td class='td-texto' style='display: none;'>" + "" + "</td></tr>").appendTo('#TListarRevision');
     }
 }
 function elimnar_todo_filas(id) {
@@ -249,3 +343,35 @@ function elimnar_todo_filas(id) {
         }
     }
 }
+function hacerModalArrastrable(modalId, headerId) {
+    const modal = document.getElementById(modalId);
+    const header = document.getElementById(headerId);
+
+    if (!modal || !header) return; // seguridad: evita errores si no existe
+
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    header.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - modal.offsetLeft;
+        offsetY = e.clientY - modal.offsetTop;
+        modal.style.transform = "none"; // Desactiva centrado automático
+        document.body.style.userSelect = "none"; // Evita seleccionar texto
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+            modal.style.left = e.clientX - offsetX + "px";
+            modal.style.top = e.clientY - offsetY + "px";
+        }
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        document.body.style.userSelect = "auto";
+    });
+}
+
+

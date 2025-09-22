@@ -65,16 +65,34 @@ def ListarNotaInscripcion(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            param0 = data.get("param0")  
+            param0 = "0" 
             param1 = data.get("param1")  
-            param2 = data.get("param2")  
+            #param2 = data.get("param2")  
+            param2 = "I"
             consultas = BuscarDatos()            
-            datos = consultas.BuscarDevolucionesDatos("ListarNota", [param0,param1,param2])
+            datos = consultas.ListarNotaInscripcionDatos("ListarNota", [param0,param1,param2])
             if datos:            
                 datos_list = [dict(row) for row in datos]               
                 return JsonResponse(datos_list, safe=False)
             else:             
-                return JsonResponse([{"Id_Inscripcion": 0, "mensaje": "No se encontraron datos"}], safe=False)
+                return JsonResponse([{"IdComprobante": 0, "mensaje": "No se encontraron datos"}], safe=False)
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+def ListarApuntesInscripcion(request):     
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            param0 = "0" 
+            param1 = data.get("param1")           
+            consultas = BuscarDatos()            
+            datos = consultas.ListarApuntesInscripcionDatos("ListarApunte", [param0,param1])
+            if datos:            
+                datos_list = [dict(row) for row in datos]               
+                return JsonResponse(datos_list, safe=False)
+            else:             
+                return JsonResponse([{"IdComprobante": 0, "mensaje": "No se encontraron datos"}], safe=False)
         except Exception as e:
             return JsonResponse([{"error": str(e)}], safe=False, status=500)
     return JsonResponse({"error": "Método no permitido"}, status=405)
