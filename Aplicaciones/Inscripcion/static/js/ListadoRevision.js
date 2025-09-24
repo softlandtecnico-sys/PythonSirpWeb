@@ -29,10 +29,16 @@ $(document).ready(function () {
      $("#idapuntesInscripcion").click(function () {
         ListarApuntes();
     });
+     $("#idBuscarComprobante").click(function () {
+        BuscarComproFactura();
+    });
     $("#idApuntescerraModal").click(function () {
         ocultarModal('apuntesModal');
     });
      $("#idComprobanteCerrar").click(function () {
+        ocultarModal('idModalComprobante');
+    });
+    $("#idComprobanteCerrar").click(function () {
         ocultarModal('idModalComprobante');
     });
 
@@ -46,6 +52,129 @@ hacerModalArrastrable("idModalComprobante", "comprobantetesHeader");
 
 var parametroConsulta = "";
 
+function llenarComproFactura(datos){
+    elimnar_todo_filas("idtableBuscarComprobante")
+    let contadorFila = 0;
+    for (let recorrer = 0; recorrer < datos.length; recorrer++)
+    {
+        contadorFila++;
+          $("<tr><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].Concepto + " </td><td class='td-texto'> " + datos[recorrer].Cantidad + " </td><td class='td-texto'> " + datos[recorrer].VUnitario + " </td><td class='td-texto'>" + datos[recorrer].ValorTotal + "</td></tr>").appendTo('#idtableBuscarComprobante');
+                        
+    }
+  
+    if(datos[0].Discapacitado ==="S")
+    {
+     document.getElementById('iddiscapacidad').checked = true;
+     
+    }
+    else{
+       document.getElementById('iddiscapacidad').checked = false; 
+    }
+    
+    if(datos[0].TerceraEdad ==="S")
+    {
+     document.getElementById('idterceraEdad').checked = true;
+     
+    }
+    else{
+       document.getElementById('idterceraEdad').checked = false; 
+    }
+    if(datos[0].IPublica ==="S")
+    {
+     document.getElementById('entidadPublica').checked = true;
+     
+    }
+    else{
+       document.getElementById('entidadPublica').checked = false; 
+    } 
+    if(datos[0].TipoActo ==="1")
+    {
+       document.getElementById('idtipoServicio').value="Inscripcion";
+     
+    }
+    else{
+     document.getElementById('idtipoServicio').value="Certificado";
+    }
+    if(datos[0].TipoRegistro ==="1")
+    {
+       document.getElementById('idtipoRegistro').value="Propiedad";
+     
+    }
+    else{
+     document.getElementById('idtipoRegistro').value="Mercantil";
+    }   
+    
+
+   
+
+    document.getElementById('idtextcomprobante').value=datos[0].IdComprobante;
+    document.getElementById('idfechaEntega').value=datos[0].FechaEntrega;
+    document.getElementById('idAfavor').value=datos[0].AFavor;
+    document.getElementById('idNombreClienteRUC').value=datos[0].Cliente_CedRuc;
+    document.getElementById('idNombreCliente').value=datos[0].Cliente;
+    document.getElementById('idsolicitanteCed').value=datos[0].CedSolicitante;
+    document.getElementById('idSolicitante').value=datos[0].SolicitadoPor;
+    document.getElementById('idcuantia').value=datos[0].Cuantia;
+    document.getElementById('idObserv').innerHTML=datos[0].Observaciones;
+    document.getElementById('idvalortotal').innerHTML=datos[0].Total;
+    document.getElementById('idModalComprobante').style.display = "block";
+
+}
+function BuscarComproFactura()
+{
+ if(parametroConsulta.trim()!=" ")
+ {
+    fetch("/inscripcion/BuscarComproFactura/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+        },
+        body: JSON.stringify({
+            param0: parametroConsulta
+
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            var datos = data;
+            let texto = "";
+            if (datos.length > 0) {
+
+                if (Number(datos[0].IdComprobante) != 0) {
+                   
+                    llenarComproFactura(datos)
+             
+                }
+                else if (Number(datos[0].IdComprobante) === 0) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'El comprobante no registrados',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+            else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Error de consulta',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
+        .catch(err => {
+            console.log("Ocurrió un error:", err);
+
+        });
+    }
+    else{
+        
+    }
+}
 function ListarApuntes()
 {
      fetch("/inscripcion/ListarApuntesInscripcion/", {

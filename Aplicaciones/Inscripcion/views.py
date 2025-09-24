@@ -168,6 +168,39 @@ def BuscarDevoluciones(request):
             return JsonResponse([{"error": str(e)}], safe=False, status=500)
     return JsonResponse({"error": "Método no permitido"}, status=405)
 
+def BuscarComproFactura(request):     
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            param0 = data.get("param0")  
+            consultas = BuscarDatos()            
+            datos = consultas.BuscarComproFacturaDatos("BuscarComproFactura", [param0])
+            if datos:            
+                datos_list = [dict(row) for row in datos]               
+                return JsonResponse(datos_list, safe=False)
+            else:             
+                return JsonResponse([{"IdComprobante": 0, "mensaje": "No se encontraron datos"}], safe=False)
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+def BuscarApuntes(request):     
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            param0 = data.get("param0")  
+            param1 = data.get("param1") 
+            consultas = BuscarDatos()            
+            datos = consultas.BuscarApuntesDatos("BuscarNotasApuntes", [param0,param1])
+            if datos:            
+                datos_list = [dict(row) for row in datos]               
+                return JsonResponse(datos_list, safe=False)
+            else:             
+                return JsonResponse([{"IdComprobante": 0, "mensaje": "No se encontraron datos"}], safe=False)
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
 def ArchivoDocNDCertificado(request):
     if request.method == "POST":
         try:
