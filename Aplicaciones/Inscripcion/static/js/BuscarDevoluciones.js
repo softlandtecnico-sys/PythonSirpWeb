@@ -1,10 +1,22 @@
 $(document).ready(function () {
+    llenarComplementosDevolutivaNegativa();
     $("#BuscarDevoluciones").click(function () {
         BuscarDevoluciones();
     });
 
 });
-
+function llenarComplementosDevolutivaNegativa()
+{
+    const combo = document.getElementById("ComboboxDevolucionesanio");
+    const añoActual = new Date().getFullYear();
+    for(let i= añoActual; i>=2010 ; i--)
+    {
+        const option = document.createElement("option");
+        option.value = i;
+        option.text = i;
+        combo.add(option);
+    }
+}
 async function BuscarDevoluciones() {
     var mestado = "A";
     var mBuscar;
