@@ -41,33 +41,49 @@ function elimnar_todo_filasNotasApuntes(id) {
         }
     }
 }
-function llenarTextAreaNota(Parametr)
-{
-   
+function llenarTextAreaNota(Parametr) {
+
 
     document.getElementById("idTextApunteObser").innerHTML = Parametr;
 
 }
-function llenar_tabla_NotasApuntes(datos,mOpcionConsulta) {
+
+function llenar_tabla_Notas(datos, mOpcionConsulta) {
     elimnar_todo_filasNotasApuntes("idTableNotasApuntes")
     let contadorFila = 0;
     if (Number(mOpcionConsulta) === 1) {
         for (let recorrer = 0; recorrer < datos.length; recorrer++) {
             contadorFila++;
-            $("<tr><td><button class='btn btn-primary me-2 mb-2' disabled>Selecionar</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].FechaApunte + " </td><td class='td-texto'> " + datos[recorrer].EmitidoPor + " </td><td class='td-texto'>" + datos[recorrer].Apunte + "</td></tr>").appendTo('#idTableNotasApuntes');
-            document.getElementById("idTextApunteObser").innerHTML += datos[recorrer].Apunte + "\n";
+            $("<tr><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].FechaNota + " </td><td class='td-texto'> " + datos[recorrer].EmitidiaPor + " </td><td class='td-texto'>" + datos[recorrer].Nota + "</td></tr>").appendTo('#idTableNotasApuntes');
+
         }
     }
-    else{
-          for (let recorrer = 0; recorrer < datos.length; recorrer++) {
+    else {
+        for (let recorrer = 0; recorrer < datos.length; recorrer++) {
             contadorFila++;
-            $("<tr><td><button class='btn btn-primary me-2 mb-2' onclick='llenarTextAreaNota(\"" + datos[recorrer].Apunte + "\")'>Selecionar</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].FechaApunte + " </td><td class='td-texto'> " + datos[recorrer].EmitidoPor + " </td><td class='td-texto'>" + datos[recorrer].Apunte + "</td></tr>").appendTo('#idTableNotasApuntes');
+            $("<tr><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].FechaNota + " </td><td class='td-texto'> " + datos[recorrer].EmitidiaPor + " </td><td class='td-texto'>" + datos[recorrer].Nota + "</td></tr>").appendTo('#idTableNotasApuntes');
         }
     }
-
-
-
 }
+
+function llenar_tabla_NotasApuntes(datos, mOpcionConsulta) {
+    elimnar_todo_filasNotasApuntes("idTableNotasApuntes")
+    let contadorFila = 0;
+    if (Number(mOpcionConsulta) === 1) {
+        for (let recorrer = 0; recorrer < datos.length; recorrer++) {
+            contadorFila++;
+            $("<tr><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].FechaApunte + " </td><td class='td-texto'> " + datos[recorrer].EmitidoPor + " </td><td class='td-texto'>" + datos[recorrer].Apunte + "</td></tr>").appendTo('#idTableNotasApuntes');
+
+        }
+    }
+    else {
+        for (let recorrer = 0; recorrer < datos.length; recorrer++) {
+            contadorFila++;
+            $("<tr><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].FechaApunte + " </td><td class='td-texto'> " + datos[recorrer].EmitidoPor + " </td><td class='td-texto'>" + datos[recorrer].Apunte + "</td></tr>").appendTo('#idTableNotasApuntes');
+        }
+    }
+}
+
 function BuscarPorApuntes() {
 
     const comcbBuscarPor = document.getElementById("idnotatramite");
@@ -79,7 +95,7 @@ function BuscarPorApuntes() {
     let mOpcionConsulta = "";
     switch (Number(comcbBuscarPorvalor)) {
         case 0:
-            mParam = document.getElementById("idtextBuscar").value.trim();
+            mParam = comboanio.value
             mAnio = "";
             break;
         case 1:
@@ -140,8 +156,62 @@ function BuscarPorApuntes() {
 
     }
     else {
+       mOpcionConsulta = Number(comcbBuscarPor.value)       
+       if(mOpcionConsulta === 0)
+       {
+        mOpcionConsulta = 9;
+    
+       }else if(mOpcionConsulta === 1)
+       {
+        mOpcionConsulta =0;
+       }
 
-        ListarNotaP(mOpcionConsulta, mParam)
+        fetch("/inscripcion/ListarNota/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieLNotasPuntes('csrftoken')
+            },
+            body: JSON.stringify({
+                param0: mOpcionConsulta,
+                param1: mParam
+
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                var datos = data;
+                let texto = "";
+                if (datos.length > 0) {
+                    if (Number(datos[0].IdComprobante) != 0) {
+
+                        llenar_tabla_Notas(datos, comcbBuscarPor.value)
+                    }
+                    else if (Number(datos[0].IdComprobante) === 0) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'info',
+                            title: 'Notas no registrado',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                }
+                else {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'Error de consulta',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(err => {
+                console.log("Ocurrió un error:", err);
+
+            });
+
 
     }
 

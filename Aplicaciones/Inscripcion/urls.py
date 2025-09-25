@@ -32,5 +32,6 @@ urlpatterns = [
     path('ListarApuntesInscripcion/', views.ListarApuntesInscripcion, name="ListarApuntesInscripcion"), 
     path('BuscarComproFactura/', views.BuscarComproFactura, name="BuscarComproFactura"), 
     path('BuscarApuntes/', views.BuscarApuntes, name="BuscarApuntes"), 
+    path('ListarNota/', views.ListarNota, name="ListarNota"),
 
 ]

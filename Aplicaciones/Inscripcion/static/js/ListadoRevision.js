@@ -1,5 +1,9 @@
 
 $(document).ready(function () {
+    $("#idElavorarRevision").click(function () {
+        ProcederRevision();
+    });
+
     if ($("#porRevisar").is(":checked")) {
         ListadoRevision("0");
     }
@@ -51,7 +55,22 @@ hacerModalArrastrable("idModalComprobante", "comprobantetesHeader");
 });
 
 var parametroConsulta = "";
+let idfila=0;
+function ProcederRevision()
+{
+    alert(idfila);
+    /*if (idfila === 0 )
+    {
 
+    }
+    else 
+    {
+        
+
+    }
+*/
+
+}
 function llenarComproFactura(datos){
     elimnar_todo_filas("idtableBuscarComprobante")
     let contadorFila = 0;
@@ -452,6 +471,7 @@ function ObtenerDocumentoInscripcion() {
 function consultarRevisionOrden(parameter0, parameter1) {
 
     parametroConsulta = parameter0;
+    idfila = parameter1;
 
 }
 function llenar_tabla_orden(datos) {
@@ -459,7 +479,7 @@ function llenar_tabla_orden(datos) {
     let contadorFila = 0;
     for (let recorrer = 0; recorrer < datos.length; recorrer++) {
         contadorFila++;
-        $("<tr><td><button class='btn btn-primary me-2 mb-2' onclick='consultarRevisionOrden(\"" + datos[recorrer].IdComprobante + "\",\"" + datos[recorrer].No_Comprobate + "\")'>Selecionar</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto' style='display: none;'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].Registro + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'>" + datos[recorrer].No_Doc + "</td><td class='td-texto'>" + datos[recorrer].Concepto + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].ValorPagar + "</td><td class='td-texto'>" + datos[recorrer].Repertorio + "</td><td class='td-texto'>" + datos[recorrer].Fecha + "</td><td class='td-texto'>" + datos[recorrer].Cuantia + "</td><td class='td-texto'>" + datos[recorrer].FechaEntrega + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].CantidadTotal + "</td><td class='td-texto' style='display: none;'>" + datos[recorrer].Id_Usuario + "</td><td class='td-texto' style='display: none;'>" + "" + "</td></tr>").appendTo('#TListarRevision');
+        $("<tr><td><button id='bnt"+ contadorFila+"' class='btn btn-primary me-2 mb-2' onclick='consultarRevisionOrden(\"" + datos[recorrer].IdComprobante + "\",\"" + contadorFila + "\")'>Selecionar</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto' style='display: none;'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].Registro + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'>" + datos[recorrer].No_Doc + "</td><td class='td-texto'>" + datos[recorrer].Concepto + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].ValorPagar + "</td><td class='td-texto'>" + datos[recorrer].Repertorio + "</td><td class='td-texto'>" + datos[recorrer].Fecha + "</td><td class='td-texto'>" + datos[recorrer].Cuantia + "</td><td class='td-texto'>" + datos[recorrer].FechaEntrega + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].CantidadTotal + "</td><td class='td-texto' style='display: none;'>" + datos[recorrer].Id_Usuario + "</td><td class='td-texto' style='display: none;'>" + "" + "</td></tr>").appendTo('#TListarRevision');
     }
 }
 function elimnar_todo_filas(id) {
