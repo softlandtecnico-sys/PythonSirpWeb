@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from Aplicaciones.Global.views import ListarLibrosVigentes, ListarFolio
+from Aplicaciones.Global.views import ActualizarFolio
 
 urlpatterns = [
     path('FOrdenesInscripcion/', views.FOrdenesInscripcion, name="OrdenesInscripcion"),
@@ -33,5 +35,8 @@ urlpatterns = [
     path('BuscarComproFactura/', views.BuscarComproFactura, name="BuscarComproFactura"), 
     path('BuscarApuntes/', views.BuscarApuntes, name="BuscarApuntes"), 
     path('ListarNota/', views.ListarNota, name="ListarNota"),
+    path('ListarLibrosVigentes/', ListarLibrosVigentes, name="ListarLibrosVigentes"),
+    path('ListarFolio/', ListarFolio, name="ListarFolio"),
+    path('ActualizarFolio/', ActualizarFolio, name="ActualizarFolio"),
 
 ]
