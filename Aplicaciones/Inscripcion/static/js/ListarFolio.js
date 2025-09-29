@@ -33,6 +33,7 @@ var PTomo = document.getElementById("idRegistotomo").value;
 var PFolioI = document.getElementById("idFolioinicial").value;
 var PFolioF = document.getElementById("idFolioFinal").value;
 
+if(PTomo.trim()!="" & PFolioI.trim()!="" & PFolioF.trim()!=""){
     fetch("/inscripcion/ActualizarFolio/", {
             method: "POST",
             headers: {
@@ -51,16 +52,22 @@ var PFolioF = document.getElementById("idFolioFinal").value;
                 var datos = data;
                 if (datos.length > 0) {
                     if (Number(datos[0].exito) === 1) {
+                         Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title:"Datos Atualizados",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
 
                       ConsultaRegistros();
-                      limpiarCampos();
-                   
+                      limpiarCampos();                   
                     }
                     else if (Number(datos[0].exito) === 0) {
                         Swal.fire({
                             position: 'top-end',
                             icon: 'info',
-                            title: 'Registro no actualizado',
+                            title:datos[0].Error ,
                             showConfirmButton: false,
                             timer: 1500
                         });
@@ -80,6 +87,17 @@ var PFolioF = document.getElementById("idFolioFinal").value;
                 console.log("Ocurrió un error:", err);
 
             });
+        }
+        else{
+             Swal.fire({
+                            position: 'top-end',
+                            icon: 'info',
+                            title:"Debe de llenar los campos" ,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+        }
 
 }
 function ConsultaRegistros() {
@@ -115,7 +133,7 @@ function ConsultaRegistros() {
                         Swal.fire({
                             position: 'top-end',
                             icon: 'info',
-                            title: 'Registro no registrado',
+                            title: 'Registro no Actualizado',
                             showConfirmButton: false,
                             timer: 1500
                         });

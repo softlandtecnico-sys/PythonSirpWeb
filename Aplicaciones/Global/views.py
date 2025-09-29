@@ -49,17 +49,9 @@ def ActualizarFolio(request):
             param2 = data.get("param2")    
             param3 = data.get("param3")       
             consultas = ListarFoliosDatos()            
-            filas_afectadas = consultas.ActualizarFoliosDatos("ActualizarFolios", [param0,param1,param2,param3])   
-            print(request.body)      
-            print(filas_afectadas)    
-            if filas_afectadas > 0:
-              print("entrandooooooooooooooooooooooooooooo")
-              datos = [{"exito": 1, "mensaje": "Actualización realizada correctamente"}]
-            else:
-                    print("entrandooooooooooooooooooooooooooooo elseeee")
-                    datos = [{"exito": 0, "mensaje": "No se actualizó ningún registro"}]
-            datos_list = [dict(row) for row in datos] 
-            return JsonResponse(datos_list, safe=False)
+            filas_afectadas = consultas.ActualizarFoliosDatos("ActualizarFolios", [param0,param1,param2,param3])                
+            print(JsonResponse(filas_afectadas, safe=False)) 
+            return JsonResponse(filas_afectadas, safe=False)
         except Exception as e:
             return JsonResponse([{"error": str(e)}], safe=False, status=500)
     return JsonResponse({"error": "Método no encontrado"}, status=405)
