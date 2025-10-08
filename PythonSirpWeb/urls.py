@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('Aplicaciones.Login.urls')),
     path('', include('Aplicaciones.MDI.urls')),
     path('inscripcion/', include('Aplicaciones.Inscripcion.urls')),
+    path('administracion/', include('Aplicaciones.Administracion.urls')),
 ]

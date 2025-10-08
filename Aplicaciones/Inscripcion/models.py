@@ -44,7 +44,7 @@ class BuscarDatos:
                 filas = cursor.fetchall()
                 return [dict(zip(columnas, fila)) for fila in filas]
         except Exception as ex:         
-            return [{"Error": f"Error ejecutando procedimiento '{nombre_proc}': {ex}"}]
+            return [{"mensaje": f"Error ejecutando procedimiento '{nombre_proc}","exito": 0}]
         
      def ControlCalidadInscripcionDatos(self, nombre_proc, parametros=None):       
         try:

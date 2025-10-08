@@ -9,7 +9,7 @@ $(document).ready(function () {
     });
 });
 var PId_Inscripcion;
-function limpiarCampos()
+async function limpiarCampos()
 {
 PId_Inscripcion = "";
 document.getElementById("idNumeroregistro").value = "";
@@ -25,139 +25,159 @@ function consultarDate() {
     $("#idfechaLibroFin").val(hoy);
 
 }
-function actualizarFolio()
-{
+async function actualizarFolio() {
+    const PidInscripcio = PId_Inscripcion;
+    const PTomo = document.getElementById("idRegistotomo").value.trim();
+    const PFolioI = document.getElementById("idFolioinicial").value.trim();
+    const PFolioF = document.getElementById("idFolioFinal").value.trim();
 
-var PidInscripcio=PId_Inscripcion;
-var PTomo = document.getElementById("idRegistotomo").value;
-var PFolioI = document.getElementById("idFolioinicial").value;
-var PFolioF = document.getElementById("idFolioFinal").value;
+    if (PTomo !== "" && PFolioI !== "" && PFolioF !== "") {
+        try {
+            // Espera la respuesta del servidor
+            const response = await fetch("/inscripcion/ActualizarFolio/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookieLibros('csrftoken')
+                },
+                body: JSON.stringify({
+                    param0: PidInscripcio,
+                    param1: PTomo,
+                    param2: PFolioI,
+                    param3: PFolioF
+                })
+            });
+            // Espera el JSON del servidor
+            const datos = await response.json();
 
-if(PTomo.trim()!="" & PFolioI.trim()!="" & PFolioF.trim()!=""){
-    fetch("/inscripcion/ActualizarFolio/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": getCookieLibros('csrftoken')
-            },
-            body: JSON.stringify({
-                param0: PidInscripcio,
-                param1: PTomo,
-                param2: PFolioI,
-                param3: PFolioF
-            })
-        })
-            .then(res => res.json())
-            .then(data => {
-                var datos = data;
-                if (datos.length > 0) {
-                    if (Number(datos[0].exito) === 1) {
-                         Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title:"Datos Atualizados",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+            if (datos.length > 0) {
+                if (Number(datos[0].exito) === 1) {
+                    await Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "Datos Actualizados",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
 
-                      ConsultaRegistros();
-                      limpiarCampos();                   
-                    }
-                    else if (Number(datos[0].exito) === 0) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'info',
-                            title:datos[0].Error ,
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    }
-                }
-                else {
-                    Swal.fire({
+                    // Espera a que termine el alert antes de continuar
+                    await ConsultaRegistros();
+                    await limpiarCampos();
+                } else if (Number(datos[0].exito) === 0) {
+                    await Swal.fire({
                         position: 'top-end',
                         icon: 'info',
-                        title: 'Error de consulta',
+                        title: datos[0].Error,
                         showConfirmButton: false,
                         timer: 1500
                     });
                 }
-            })
-            .catch(err => {
-                console.log("Ocurrió un error:", err);
-
+            } else {
+                await Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Error de consulta',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        } catch (err) {
+            console.error("Ocurrió un error:", err);
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión con el servidor',
+                text: err.message
             });
         }
-        else{
-             Swal.fire({
-                            position: 'top-end',
-                            icon: 'info',
-                            title:"Debe de llenar los campos" ,
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-
-        }
-
+    } else {
+        await Swal.fire({
+            position: 'top-end',
+            icon: 'info',
+            title: "Debe llenar todos los campos",
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
 }
-function ConsultaRegistros() {
+
+async function ConsultaRegistros() {
     const idLibro = document.getElementById("idLibros");
     const ObtenerIdLibro = idLibro.value;
-    var pametroFechaIni = $("#idFechaLibroI").val();
-    var pametroFechaFin = $("#idfechaLibroFin").val();
+    const pametroFechaIni = $("#idFechaLibroI").val();
+    const pametroFechaFin = $("#idfechaLibroFin").val();
+
     if (pametroFechaIni <= pametroFechaFin) {
-
-        fetch("/inscripcion/ListarFolio/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": getCookieLibros('csrftoken')
-            },
-            body: JSON.stringify({
-                param0: pametroFechaIni,
-                param1: pametroFechaFin,
-                param2: ObtenerIdLibro
-
-            })
-        })
-            .then(res => res.json())
-            .then(data => {
-                var datos = data;
-                let texto = "";
-                if (datos.length > 0) {
-                    if (Number(datos[0].Id_Inscripcion) != 0) {
-
-                        llenar_tabla_ListarFolio(datos)
-                    }
-                    else if (Number(datos[0].Id_Inscripcion) === 0) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'info',
-                            title: 'Registro no Actualizado',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    }
+        try {
+            // Mostrar el modal de carga
+            Swal.fire({
+                title: 'Cargando datos...',
+                text: 'Por favor espere mientras se obtiene la información.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
                 }
-                else {
+            });
+
+            // Esperar respuesta del servidor
+            const response = await fetch("/inscripcion/ListarFolio/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookieLibros('csrftoken')
+                },
+                body: JSON.stringify({
+                    param0: pametroFechaIni,
+                    param1: pametroFechaFin,
+                    param2: ObtenerIdLibro
+                })
+            });
+
+            const datos = await response.json();
+
+            // Cerrar el modal de carga
+            Swal.close();
+
+            if (datos.length > 0) {
+                if (Number(datos[0].Id_Inscripcion) !== 0) {
+                    llenar_tabla_ListarFolio(datos);
+                } else {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'info',
-                        title: 'Error de consulta',
+                        title: 'Registro no actualizado',
                         showConfirmButton: false,
                         timer: 1500
                     });
                 }
-            })
-            .catch(err => {
-                console.log("Ocurrió un error:", err);
-
+            } else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Error de consulta',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        } catch (err) {
+            Swal.close();
+            console.error("Ocurrió un error:", err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al obtener los datos',
+                text: err.message
             });
+        }
+    } else {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'info',
+            title: 'La fecha inicial no puede ser mayor que la final',
+            showConfirmButton: false,
+            timer: 1500
+        });
     }
-
-
-
 }
+
 function llenarComboLibro(datos) {
     const combo = document.getElementById("idLibros");
     for (let recorrer = 0; recorrer < datos.length; recorrer++) {

@@ -9,56 +9,68 @@ $(document).ready(function () {
 
 
 async function MostrarOrdenesPendientes() {
-
     const combo = document.getElementById("buscarPor");
     const parameter0 = combo.value;
-    var parameter1 = $("#textOrdenPrelacion").val();
+    const parameter1 = $("#textOrdenPrelacion").val();
 
-    fetch("/inscripcion/MostrarOrdenesPendientes/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
-        },
-        body: JSON.stringify({
-            param0: parameter0,
-            param1: parameter1
-        })
-    })
-        .then(res => res.json())
-        .then(data => {
-            var datos = data;
-            if (datos.length > 0) {
-                if (datos.length === 1 && datos[0].No_Comprobate === 0) {
-                    elimnar_todo_filas("TableOrdenesPendientes")
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'info',
-                        title: datos[0].mensaje,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-                else {
-                    llenar_tabla_ordenPendiente(datos);
-                }
+    try {
+      
+        Swal.fire({
+            title: 'Cargando órdenes pendientes...',
+            text: 'Por favor espere mientras se obtienen los datos.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
             }
-            else {
-                Swal.fire({
+        });     
+        const response = await fetch("/inscripcion/MostrarOrdenesPendientes/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieL('csrftoken') 
+            },
+            body: JSON.stringify({
+                param0: parameter0,
+                param1: parameter1
+            })
+        });
+        const datos = await response.json();  
+        Swal.close(); 
+        if (datos.length > 0) {
+            if (datos.length ===1  && Number(datos[0].exito) === 0) {
+                 Swal.fire({
                     position: 'top-end',
                     icon: 'info',
-                    title: 'Credenciales incorrectos',
+                    title: datos[0].mensaje,
                     showConfirmButton: false,
                     timer: 1500
                 });
+                elimnar_todo_filas("TableOrdenesPendientes");
+               
+            } else {
+                llenar_tabla_ordenPendiente(datos);
             }
-        })
-        .catch(err => {
-            console.log("Ocurrió un error:", err);
+        } else {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'info',
+                title: 'No se encontraron resultados',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
 
+    } catch (err) {
+        Swal.close();
+        console.error("Ocurrió un error:", err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al obtener las órdenes pendientes',
+            text: err.message
         });
-
+    }
 }
+
 function getCookieL(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== "") {

@@ -18,74 +18,107 @@ function llenarComplementosDevolutivaNegativa()
     }
 }
 async function BuscarDevoluciones() {
-    var mestado = "A";
-    var mBuscar;
+    let mestado = "A";
+    let mBuscar;
     const combo = document.getElementById("buscarPorDevoluciones");
     const pConsulta = combo.value;
-    let valor = $("#textBusquedaD").val().trim();
-    let resultado = ("000000" + valor).slice(-6);
-    if ($("#devolucionespPro").is(":checked")) { mestado = "I"; }
+    const valor = $("#textBusquedaD").val().trim();
+    const resultado = ("000000" + valor).slice(-6);
+
+    // Determinar estado
+    if ($("#devolucionespPro").is(":checked")) {
+        mestado = "I";
+    }
+
+    // Construir parámetro de búsqueda
     if (pConsulta == 0) {
         mBuscar = $("#ComboboxDevolucionesanio option:selected").text();
-    }
-    else if (pConsulta == 1) {
+    } else if (pConsulta == 1) {
         if (valor !== "") {
             if ($("#devolucionesMercantil").is(":checked")) {
                 mBuscar = "21" + $("#ComboboxDevolucionesanio option:selected").text() + resultado;
-            }
-            else {
+            } else {
                 mBuscar = "11" + $("#ComboboxDevolucionesanio option:selected").text() + resultado;
             }
+        } else {
+            // Validar que se haya ingresado valor
+            Swal.fire({
+                position: 'top-end',
+                icon: 'info',
+                title: 'Ingrese un valor para buscar',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            return;
         }
-    }
-    else {
+    } else {
         mBuscar = valor;
     }
-    fetch("/inscripcion/BuscarDevoluciones/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
-        },
-        body: JSON.stringify({
-            param0: pConsulta,
-            param1: mestado,
-            param2: mBuscar
-        })
-    })
-        .then(res => res.json())
-        .then(data => {
-            var datos = data;
-            if (datos.length > 0) {
-                if (datos.length === 1 && datos[0].Id_Inscripcion === 0) {
-                    elimnar_todo_filasDevo("TableBuscarDevoluciones")
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'info',
-                        title: datos[0].mensaje,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-                else {
-                    llenar_tabla_ordenDevo(datos);
-                }
+
+    try {
+        // Mostrar modal de carga
+        Swal.fire({
+            title: 'Buscando devoluciones...',
+            text: 'Por favor espere mientras se obtiene la información.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
             }
-            else {
+        });
+
+        // Esperar respuesta del servidor
+        const response = await fetch("/inscripcion/BuscarDevoluciones/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieL('csrftoken') // CSRF para Django
+            },
+            body: JSON.stringify({
+                param0: pConsulta,
+                param1: mestado,
+                param2: mBuscar
+            })
+        });
+
+        const datos = await response.json();
+
+        // Cerrar modal de carga
+        Swal.close();
+
+        if (datos.length > 0) {
+            if (datos.length === 1 && Number(datos[0].Id_Inscripcion) === 0) {
+                elimnar_todo_filasDevo("TableBuscarDevoluciones");
                 Swal.fire({
                     position: 'top-end',
                     icon: 'info',
-                    title: 'Error',
+                    title: datos[0].mensaje,
                     showConfirmButton: false,
                     timer: 1500
                 });
+            } else {
+                llenar_tabla_ordenDevo(datos);
             }
-        })
-        .catch(err => {
-            console.log("Ocurrió un error:", err);
+        } else {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'info',
+                title: 'No se encontraron resultados',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
 
+    } catch (err) {
+        Swal.close();
+        console.error("Ocurrió un error:", err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al consultar devoluciones',
+            text: err.message
         });
+    }
 }
+
 function getCookieL(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== "") {

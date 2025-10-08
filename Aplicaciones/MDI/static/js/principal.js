@@ -6,31 +6,31 @@ if (!usuario) {
 */
 
     $(document).on('click', '#1', function() {
-        crearIframe('/inscripcion/FOrdenesInscripcion/','100%');
+        crearIframe('/inscripcion/FOrdenesInscripcion/','100%','100%');
     });
 $(document).on('click', '#2', function() {
-        crearIframe('/inscripcion/FOrdenesPrelacion','100%');
+        crearIframe('/inscripcion/FOrdenesPrelacion','100%','100%');
     });
     $(document).on('click', '#3', function() {
-        crearIframe('/inscripcion/FNotasDevoNegativa','100%');
+        crearIframe('/inscripcion/FNotasDevoNegativa','100%','100%');
     });
      $(document).on('click', '#4', function() {
-        crearIframe('/inscripcion/FConsultarNotasApuntes/','100%');
+        crearIframe('/inscripcion/FConsultarNotasApuntes/','100%','100%');
     });
     $(document).on('click', '#5', function() {
-        crearIframe('/inscripcion/FBuscarInscripcion','100%');
+        crearIframe('/inscripcion/FBuscarInscripcion','100%','100%');
     });
      $(document).on('click', '#6', function() {
-        crearIframe('/inscripcion/FListadoInscripcionesporingresar','100%');
+        crearIframe('/inscripcion/FListadoInscripcionesporingresar','100%','100%');
     });
      $(document).on('click', '#7', function() {
-        crearIframe('/inscripcion/FNuevaFichaRegistral','100%');
+        crearIframe('/inscripcion/FNuevaFichaRegistral','100%','100%');
     });
     $(document).on('click', '#8', function() {
-        crearIframe('/inscripcion/FListarFolio','100%');
+        crearIframe('/inscripcion/FListarFolio','100%','100%');
     });
     $(document).on('click', '#9', function() {
-        crearIframe('/inscripcion/FControlCalidadInscripcion','100%');
+        crearIframe('/inscripcion/FControlCalidadInscripcion','100%','100%');
     });
     $(document).on('click', '#112', function() {
         llamar_modal('/mantenimientousuario.php','90');
@@ -64,9 +64,18 @@ $(document).on('click', '#2', function() {
     });
 
     $(document).on('click', '#127', function(){
-        llamar_modal('../Page/ayuda/manual_procedimiento.php','90');       
+        llamar_modal('../Page/ayuda/manual_procedimiento.php','90%');       
     });
 
+
+    ///Administraciom
+
+     $(document).on('click', '#111', function(){
+          crearIframe('/administracion/FCrearUsuario/','100%','40%');   
+    });
+    $(document).on('click', '#112', function(){
+          crearIframe('/administracion/FMantenimientoUsuario/','100%','60%');   
+    });
 
 
 
@@ -93,7 +102,7 @@ function llamar_modal(page)
 
 
 }
-function crearIframe(page, ancho, largo = "600px") {
+function crearIframe(page, ancho,anchoI, largo = "600px") {
   // Crear el iframe
   const iframe = document.createElement("iframe");
   iframe.style.width = ancho;
@@ -102,7 +111,7 @@ function crearIframe(page, ancho, largo = "600px") {
   iframe.style.border = "0";
   // Contenedor
   const contenedor = document.createElement("div");
-  contenedor.style.width ="100%";
+  contenedor.style.width =anchoI;
   contenedor.style.position = "relative";
   contenedor.style.padding = "0";
   contenedor.style.border = "1px solid #ccc";

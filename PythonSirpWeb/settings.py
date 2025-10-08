@@ -42,7 +42,16 @@ INSTALLED_APPS = [
     'Aplicaciones.MDI',
     'Aplicaciones.Inscripcion',
     'Aplicaciones.Global',
-    'Aplicaciones.ConfigBase'
+    'Aplicaciones.ConfigBase',
+    'Aplicaciones.Administracion',
+    'Aplicaciones.Ayuda',
+    'Aplicaciones.Certificado',
+    'Aplicaciones.Comprobante',
+    'Aplicaciones.DocumentosRegistrales',
+    'Aplicaciones.Extensiones',
+    'Aplicaciones.Informes',
+    'Aplicaciones.Mantenimiento'
+
 
 ]
 

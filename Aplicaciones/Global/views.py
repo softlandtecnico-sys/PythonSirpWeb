@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from Aplicaciones.Global.Utils.Libros import LibrosDatos
 from Aplicaciones.Global.Utils.ListarFolios import ListarFoliosDatos
+
 from django.http import JsonResponse
 import json
 
@@ -49,11 +50,12 @@ def ActualizarFolio(request):
             param2 = data.get("param2")    
             param3 = data.get("param3")       
             consultas = ListarFoliosDatos()            
-            filas_afectadas = consultas.ActualizarFoliosDatos("ActualizarFolios", [param0,param1,param2,param3])                
-            print(JsonResponse(filas_afectadas, safe=False)) 
+            filas_afectadas = consultas.ActualizarFoliosDatos("ActualizarFolios", [param0,param1,param2,param3]) 
             return JsonResponse(filas_afectadas, safe=False)
         except Exception as e:
-            return JsonResponse([{"error": str(e)}], safe=False, status=500)
-    return JsonResponse({"error": "Método no encontrado"}, status=405)
+            return JsonResponse([{"error": str(e)}], safe=False)
+    return JsonResponse({"error": "Método no encontrado"}, safe=False)
 
-# Create your views here.
+
+
+#------------------------------Opcion Administrador

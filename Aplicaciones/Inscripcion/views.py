@@ -7,6 +7,7 @@ from .models import BuscarDatos
 from Aplicaciones.Global.Utils.ListarCarpetasCompartidas import CarpetasDatos
 from Aplicaciones.Global.Utils.Digitalizacion import Digitalizacion
 
+
 # Create your views here.
 
 def FOrdenesInscripcion(request):
@@ -110,10 +111,10 @@ def MostrarOrdenesPendientes(request):
                 datos_list = [dict(row) for row in datos]
                 return JsonResponse(datos_list, safe=False)
             else:
-                return JsonResponse([{"No_Comprobate": 0, "mensaje": "No se encontraron datos"}], safe=False)
+                return JsonResponse([{"exito": 1, "mensaje": "No se encontraron datos"}], safe=False)
         except Exception as e:
-            return JsonResponse([{"error": str(e)}], safe=False, status=500)
-    return JsonResponse({"error": "Método no permitido"}, status=405)
+            return JsonResponse([{"mensaje": str(e), "exito": 0}], safe=False)
+    return JsonResponse({"mensaje": "Método no permitido"}, status=405)
 
 def ListarAsignacionCalidad(request):     
     if request.method == "POST":
