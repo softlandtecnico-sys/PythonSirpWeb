@@ -6,15 +6,13 @@ $(document).ready(function () {
     });
 
 });
-
+var idsuario="1";
 function limpiar()
 {
     $("#nombreUsuario").val("");
     $("#nombreCompleto").val("");
     $("#iddescripcion").val("");
     $("#idcontrasena").val("");
-    $("#idTipoUsuario")[0].selectedIndex = 0;
-    $("#idRolUsuario")[0].selectedIndex = 0;
 
 }
 async function BuscarUsuario() {
@@ -57,6 +55,64 @@ async function BuscarUsuario() {
   }
 }
 
+async function Auditoria(PmeterU,PmeterIu,PmeterE)
+{
+     try {
+
+        fetch("/administracion/GuardarAuditoria/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieUsuarios('csrftoken')
+            },
+        body: JSON.stringify({
+        param0: "802",
+        param1: ("Usuario creado: "+ PmeterU),
+        param2: PmeterIu,
+        param3: PmeterE,
+        param4: "",
+        param5: "",
+        param6: "",
+        param7: "",
+
+      })
+        })
+            .then(res => res.json())
+            .then(data => {
+                var datos = data;
+                if (datos.length > 0) {
+                    if (Number(datos[0].exito) != 0) {
+            
+                    }
+                    else if (Number(datos[0].exito) === 0) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'info',
+                            title: datos[0].mensaje,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                    }
+                }
+
+            })
+            .catch(err => {
+                console.log("Ocurrió un error:", err);
+
+            });
+
+    } catch (err) {
+        Swal.close();
+        console.error("Ocurrió un error:", err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al consultar Tipo Usuario',
+            text: err.message
+        });
+    }
+
+}
 async function AgregarUsuario() {
     const resultado = await BuscarUsuario();
     const idTipoUsuario = document.getElementById("idTipoUsuario");
@@ -112,6 +168,7 @@ async function AgregarUsuario() {
                 Swal.close();
                 if (datos.length > 0) {
                     if (Number(datos[0].exito) !== 0) {
+                        Auditoria($("#nombreUsuario").val().trim(),idsuario,"");
                         limpiar();
                         Swal.fire({
                             position: 'top-end',

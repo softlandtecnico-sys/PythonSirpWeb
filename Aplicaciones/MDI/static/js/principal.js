@@ -32,24 +32,8 @@ $(document).on('click', '#2', function() {
     $(document).on('click', '#9', function() {
         crearIframe('/inscripcion/FControlCalidadInscripcion','100%','100%');
     });
-    $(document).on('click', '#112', function() {
-        llamar_modal('/mantenimientousuario.php','90');
-    });
-    $(document).on('click', '#113', function() {
-        llamar_modal('/rolesusuario.php','90');
-    });
-    $(document).on('click', '#114', function() {
-        llamar_modal('/registrodepropiedad.php','90');
-    });
-    $(document).on('click', '#119', function() {
-        llamar_modal('/tablavalores.php','90');
-    });
-    $(document).on('click', '#120', function() {
-        llamar_modal('/librosregistrales.php','90');
-    });
-    $(document).on('click', '#121', function() {
-        llamar_modal('/parametros.php','70');
-    });
+   
+   
     
 
     
@@ -74,7 +58,10 @@ $(document).on('click', '#2', function() {
           crearIframe('/administracion/FCrearUsuario/','100%','40%');   
     });
     $(document).on('click', '#112', function(){
-          crearIframe('/administracion/FMantenimientoUsuario/','100%','60%');   
+          crearIframe('/administracion/FMantenimientoUsuario/','100%','80%');   
+    });
+     $(document).on('click', '#113', function(){
+          crearIframe('/administracion/FDefinirRoles/','100%','50%');   
     });
 
 

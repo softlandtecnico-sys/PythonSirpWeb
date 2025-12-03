@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from Aplicaciones.Global.Utils.Libros import LibrosDatos
 from Aplicaciones.Global.Utils.ListarFolios import ListarFoliosDatos
+from Aplicaciones.Global.Utils.Auditoria import AuditoriaDatos
+from datetime import datetime    
 
 from django.http import JsonResponse
 import json
@@ -59,3 +61,29 @@ def ActualizarFolio(request):
 
 
 #------------------------------Opcion Administrador
+
+
+
+
+#------------------------------Auditoria
+
+def GuardarAuditoria(request):    
+    print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)      
+            param0 = data.get("param0") 
+            param1 = data.get("param1")  
+            param2 = data.get("param2")   
+            param3 = data.get("param3")  
+            param4 = data.get("param4")  
+            param5 = data.get("param5")  
+            param6 = data.get("param6")  
+            param7 = data.get("param7")       
+            consultas = AuditoriaDatos()  
+            print(data);          
+            filas_afectadas = consultas.GuardarAuditoriaDatos("Guardar_Auditoria", [param0,param1,param2,param3,param4,param5,param6,param7]) 
+            return JsonResponse(filas_afectadas, safe=False)
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False)
+    return JsonResponse({"error": "Método no encontrado"}, safe=False)

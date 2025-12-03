@@ -21,7 +21,7 @@ class ListarFoliosDatos:
     
      def ActualizarFoliosDatos(self, nombre_proc, parametros=None):       
         try:
-            print(nombre_proc)
+           
             with connection.cursor() as cursor:
                 if parametros:
                     placeholders = ",".join(["%s"] * len(parametros))
