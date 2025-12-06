@@ -30,179 +30,338 @@ $(document).ready(function () {
     $("#idcerraModal").click(function () {
         ocultarModal('notasModal');
     });
-     $("#idapuntesInscripcion").click(function () {
+    $("#idapuntesInscripcion").click(function () {
         ListarApuntes();
     });
-     $("#idBuscarComprobante").click(function () {
+    $("#idAgregarApuntes").click(function () {
+        AgregarApuntes();
+    });
+    $("#idAgregarNotas").click(function () {
+        AgregarNotas();
+    });
+
+    $("#idBuscarComprobante").click(function () {
         BuscarComproFactura();
     });
     $("#idApuntescerraModal").click(function () {
         ocultarModal('apuntesModal');
     });
-     $("#idComprobanteCerrar").click(function () {
+    $("#idAutocerraModal").click(function () {
+        ocultarModal('idautorizacionModal');
+    });
+    $("#idComprobanteCerrar").click(function () {
         ocultarModal('idModalComprobante');
     });
     $("#idComprobanteCerrar").click(function () {
         ocultarModal('idModalComprobante');
     });
+    $("#idAutorizar").click(function () {
+
+    });
+
 
     // Llamas la función para cada modal que tengas
-hacerModalArrastrable("notasModal", "modalHeader");
-hacerModalArrastrable("apuntesModal", "apuntesHeader");
-hacerModalArrastrable("idModalComprobante", "comprobantetesHeader");
+    hacerModalArrastrable("notasModal", "modalHeader");
+    hacerModalArrastrable("apuntesModal", "apuntesHeader");
+    hacerModalArrastrable("idModalComprobante", "comprobantetesHeader");
+    hacerModalArrastrable("idautorizacionModal", "autorizacionHeader");
 
 
 });
 
 var parametroConsulta = "";
-let idfila=0;
-function ProcederRevision()
-{
-    alert(idfila);
-    /*if (idfila === 0 )
-    {
+let idfila = 0;
+let autorizacion = 0;
+function comboautorizacion() {
+    try {
 
-    }
-    else 
-    {
-        
+        fetch("/administracion/ListarUsuariosFiltrado/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieL('csrftoken')
+            },
+            body: JSON.stringify({
+                param0: "9",
+                param1: "",
+            })
+        }).then(res => res.json())
+            .then(data => {
+                var datos = data;
+                if (datos.length > 0) {
+                    if (Number(datos[0].Id_Usuario) != 0) {
+                        llenarCombobox(datos, "idSelectAutorizador");
+                        document.getElementById('idautorizacionModal').style.display = "block";
+                    }
+                    else if (Number(datos[0].Id_Usuario) === 0) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'info',
+                            title: datos[0].mensaje,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
 
+                    }
+                }
+
+            })
+            .catch(err => {
+                console.log("Ocurrió un error:", err);
+
+            });
+
+    } catch (err) {
+        Swal.close();
+        console.error("Ocurrió un error:", err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al consultar Tipo Usuario',
+            text: err.message
+        });
     }
-*/
 
 }
-function llenarComproFactura(datos){
+
+function ProcederRevision() {
+
+    if (idfila == 1) {
+
+
+
+    }
+    else {
+        Swal.fire({
+            title: 'Revisión',
+            text: "No cuenta con permisos para adelantar este trámite. ¿Desea solicitar la autorización correspondiente?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'No',
+            reverseButtons: true  // Opcional: invierte el orden
+        }).then((result) => {
+            if (result.isConfirmed) {
+                comboautorizacion();
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // ✖ NO
+                Swal.fire("Cancelado", "Elegiste No", "error");
+            }
+        });
+
+
+
+    }
+
+
+}
+
+function llenarComproFactura(datos) {
     elimnar_todo_filas("idtableBuscarComprobante")
     let contadorFila = 0;
-    for (let recorrer = 0; recorrer < datos.length; recorrer++)
-    {
+    for (let recorrer = 0; recorrer < datos.length; recorrer++) {
         contadorFila++;
-          $("<tr><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].Concepto + " </td><td class='td-texto'> " + datos[recorrer].Cantidad + " </td><td class='td-texto'> " + datos[recorrer].VUnitario + " </td><td class='td-texto'>" + datos[recorrer].ValorTotal + "</td></tr>").appendTo('#idtableBuscarComprobante');
-                        
-    }
-  
-    if(datos[0].Discapacitado ==="S")
-    {
-     document.getElementById('iddiscapacidad').checked = true;
-     
-    }
-    else{
-       document.getElementById('iddiscapacidad').checked = false; 
-    }
-    
-    if(datos[0].TerceraEdad ==="S")
-    {
-     document.getElementById('idterceraEdad').checked = true;
-     
-    }
-    else{
-       document.getElementById('idterceraEdad').checked = false; 
-    }
-    if(datos[0].IPublica ==="S")
-    {
-     document.getElementById('entidadPublica').checked = true;
-     
-    }
-    else{
-       document.getElementById('entidadPublica').checked = false; 
-    } 
-    if(datos[0].TipoActo ==="1")
-    {
-       document.getElementById('idtipoServicio').value="Inscripcion";
-     
-    }
-    else{
-     document.getElementById('idtipoServicio').value="Certificado";
-    }
-    if(datos[0].TipoRegistro ==="1")
-    {
-       document.getElementById('idtipoRegistro').value="Propiedad";
-     
-    }
-    else{
-     document.getElementById('idtipoRegistro').value="Mercantil";
-    }   
-    
+        $("<tr><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto'> " + datos[recorrer].Concepto + " </td><td class='td-texto'> " + datos[recorrer].Cantidad + " </td><td class='td-texto'> " + datos[recorrer].VUnitario + " </td><td class='td-texto'>" + datos[recorrer].ValorTotal + "</td></tr>").appendTo('#idtableBuscarComprobante');
 
-   
+    }
 
-    document.getElementById('idtextcomprobante').value=datos[0].IdComprobante;
-    document.getElementById('idfechaEntega').value=datos[0].FechaEntrega;
-    document.getElementById('idAfavor').value=datos[0].AFavor;
-    document.getElementById('idNombreClienteRUC').value=datos[0].Cliente_CedRuc;
-    document.getElementById('idNombreCliente').value=datos[0].Cliente;
-    document.getElementById('idsolicitanteCed').value=datos[0].CedSolicitante;
-    document.getElementById('idSolicitante').value=datos[0].SolicitadoPor;
-    document.getElementById('idcuantia').value=datos[0].Cuantia;
-    document.getElementById('idObserv').innerHTML=datos[0].Observaciones;
-    document.getElementById('idvalortotal').innerHTML=datos[0].Total;
+    if (datos[0].Discapacitado === "S") {
+        document.getElementById('iddiscapacidad').checked = true;
+
+    }
+    else {
+        document.getElementById('iddiscapacidad').checked = false;
+    }
+
+    if (datos[0].TerceraEdad === "S") {
+        document.getElementById('idterceraEdad').checked = true;
+
+    }
+    else {
+        document.getElementById('idterceraEdad').checked = false;
+    }
+    if (datos[0].IPublica === "S") {
+        document.getElementById('entidadPublica').checked = true;
+
+    }
+    else {
+        document.getElementById('entidadPublica').checked = false;
+    }
+    if (datos[0].TipoActo === "1") {
+        document.getElementById('idtipoServicio').value = "Inscripcion";
+
+    }
+    else {
+        document.getElementById('idtipoServicio').value = "Certificado";
+    }
+    if (datos[0].TipoRegistro === "1") {
+        document.getElementById('idtipoRegistro').value = "Propiedad";
+
+    }
+    else {
+        document.getElementById('idtipoRegistro').value = "Mercantil";
+    }
+
+
+
+
+    document.getElementById('idtextcomprobante').value = datos[0].IdComprobante;
+    document.getElementById('idfechaEntega').value = datos[0].FechaEntrega;
+    document.getElementById('idAfavor').value = datos[0].AFavor;
+    document.getElementById('idNombreClienteRUC').value = datos[0].Cliente_CedRuc;
+    document.getElementById('idNombreCliente').value = datos[0].Cliente;
+    document.getElementById('idsolicitanteCed').value = datos[0].CedSolicitante;
+    document.getElementById('idSolicitante').value = datos[0].SolicitadoPor;
+    document.getElementById('idcuantia').value = datos[0].Cuantia;
+    document.getElementById('idObserv').innerHTML = datos[0].Observaciones;
+    document.getElementById('idvalortotal').innerHTML = datos[0].Total;
     document.getElementById('idModalComprobante').style.display = "block";
 
 }
-function BuscarComproFactura()
-{
- if(parametroConsulta.trim()!=" ")
- {
-    fetch("/inscripcion/BuscarComproFactura/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
-        },
-        body: JSON.stringify({
-            param0: parametroConsulta
+function BuscarComproFactura() {
+    if (parametroConsulta.trim() != " ") {
+        fetch("/inscripcion/BuscarComproFactura/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+            },
+            body: JSON.stringify({
+                param0: parametroConsulta
 
+            })
         })
-    })
-        .then(res => res.json())
-        .then(data => {
-            var datos = data;
-            let texto = "";
-            if (datos.length > 0) {
+            .then(res => res.json())
+            .then(data => {
+                var datos = data;
+                if (datos.length > 0) {
 
-                if (Number(datos[0].IdComprobante) != 0) {
-                   
-                    llenarComproFactura(datos)
-             
+                    if (Number(datos[0].IdComprobante) != 0) {
+
+                        llenarComproFactura(datos)
+
+                    }
+                    else if (Number(datos[0].IdComprobante) === 0) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'info',
+                            title: 'El comprobante no registrados',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
                 }
-                else if (Number(datos[0].IdComprobante) === 0) {
+                else {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'info',
-                        title: 'El comprobante no registrados',
+                        title: 'Error de consulta',
                         showConfirmButton: false,
                         timer: 1500
                     });
                 }
-            }
-            else {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'info',
-                    title: 'Error de consulta',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-        })
-        .catch(err => {
-            console.log("Ocurrió un error:", err);
+            })
+            .catch(err => {
+                console.log("Ocurrió un error:", err);
 
-        });
+            });
     }
-    else{
-        
+    else {
+
     }
 }
-function ListarApuntes()
-{
-     fetch("/inscripcion/ListarApuntesInscripcion/", {
+function AgregarNotas() {
+    var idusuario = sessionStorage.getItem("Id_Usuario") ?? 1;
+    var texto = limpiarTexto(document.getElementById('idNotas').value);
+    if (idusuario > 0 && texto.trim().length > 0) {
+        fetch("/inscripcion/AgregarNota/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+            },
+            body: JSON.stringify({
+                param0: "",
+                param1: parametroConsulta,
+                param2: "I",
+                param3: idusuario,
+                param4: texto
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (datos.length > 0) {
+                    document.getElementById('idNotas').value = "";
+                    ListarNota();
+                }
+                else {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'Error de consulta',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(err => {
+                console.log("Ocurrió un error:", err);
+
+            });
+    }
+
+}
+function AgregarApuntes() {
+    var idusuario = sessionStorage.getItem("Id_Usuario") ?? 1;
+    var texto = limpiarTexto(document.getElementById('idApuntes').value);
+    if (idusuario > 0 && texto.trim().length > 0) {
+        fetch("/inscripcion/AgregarApuntes/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+            },
+            body: JSON.stringify({
+                param0: "",
+                param1: parametroConsulta,
+                param2: idusuario,
+                param3: texto
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                var datos = data;
+                let texto = "";
+                if (datos.length > 0) {
+                    document.getElementById('idApuntes').value = "";
+                    ListarApuntes();
+                }
+                else {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'Error de consulta',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(err => {
+                console.log("Ocurrió un error:", err);
+
+            });
+    }
+
+}
+function ListarApuntes() {
+    document.getElementById('idApuntes').value = "";
+    fetch("/inscripcion/ListarApuntesInscripcion/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
         },
         body: JSON.stringify({
+            param1: "0",
             param1: parametroConsulta
 
         })
@@ -217,17 +376,11 @@ function ListarApuntes()
                     for (let recorrer = 0; recorrer < datos.length; recorrer++) {
                         texto += datos[recorrer].Apunte + "\n\n";
                     }
-                    document.getElementById('idApuntes').innerHTML = texto
+                    document.getElementById('idApuntes').value = texto
                     document.getElementById('apuntesModal').style.display = "block";
                 }
                 else if (Number(datos[0].IdComprobante) === 0) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'info',
-                        title: 'El comprobante no tiene apuntes registrados',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                    document.getElementById('apuntesModal').style.display = "block";
                 }
             }
             else {
@@ -247,7 +400,7 @@ function ListarApuntes()
 
 }
 function ListarNota() {
-
+    document.getElementById('idNotas').value = "";
     fetch("/inscripcion/ListarNotaInscripcion/", {
         method: "POST",
         headers: {
@@ -255,7 +408,9 @@ function ListarNota() {
             "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
         },
         body: JSON.stringify({
-            param1: parametroConsulta
+            param0: "0",
+            param1: parametroConsulta,
+            param2: "I"
 
         })
     })
@@ -270,17 +425,11 @@ function ListarNota() {
                     for (let recorrer = 0; recorrer < datos.length; recorrer++) {
                         texto += datos[recorrer].Nota + "\n\n";
                     }
-                    document.getElementById('idNotas').innerHTML = texto
+                    document.getElementById('idNotas').value = texto
                     document.getElementById('notasModal').style.display = "block";
                 }
                 else if (Number(datos[0].IdComprobante) === 0) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'info',
-                        title: 'El comprobante no tiene notas registrados',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                    document.getElementById('notasModal').style.display = "block";
 
 
                 }
@@ -304,10 +453,8 @@ function ListarNota() {
 }
 
 function ocultarModal(idPamatro) {
-    
 
     document.getElementById(idPamatro).style.display = "none";
-
 }
 
 async function ListadoRevision(parametroConsultaEntrada) {
@@ -368,7 +515,9 @@ function ObtenerArchivoDocTramiteDevuelto() {
             "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
         },
         body: JSON.stringify({
-            param0: parametroConsulta
+            param0: parametroConsulta,
+            param1: "CarpetaHD",
+            param2: "2"
         })
     })
         .then(res => res.json())
@@ -422,7 +571,9 @@ function ObtenerDocumentoInscripcion() {
             "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
         },
         body: JSON.stringify({
-            param0: parametroConsulta
+            param0: parametroConsulta,
+            param1: "CarpetaTramite",
+            param2: "1"
         })
     })
         .then(res => res.json())
@@ -479,7 +630,7 @@ function llenar_tabla_orden(datos) {
     let contadorFila = 0;
     for (let recorrer = 0; recorrer < datos.length; recorrer++) {
         contadorFila++;
-        $("<tr><td><button id='bnt"+ contadorFila+"' class='btn btn-primary me-2 mb-2' onclick='consultarRevisionOrden(\"" + datos[recorrer].IdComprobante + "\",\"" + contadorFila + "\")'>Selecionar</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto' style='display: none;'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].Registro + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'>" + datos[recorrer].No_Doc + "</td><td class='td-texto'>" + datos[recorrer].Concepto + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].ValorPagar + "</td><td class='td-texto'>" + datos[recorrer].Repertorio + "</td><td class='td-texto'>" + datos[recorrer].Fecha + "</td><td class='td-texto'>" + datos[recorrer].Cuantia + "</td><td class='td-texto'>" + datos[recorrer].FechaEntrega + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].CantidadTotal + "</td><td class='td-texto' style='display: none;'>" + datos[recorrer].Id_Usuario + "</td><td class='td-texto' style='display: none;'>" + "" + "</td></tr>").appendTo('#TListarRevision');
+        $("<tr><td><button id='bnt" + contadorFila + "' class='btn btn-primary me-2 mb-2' onclick='consultarRevisionOrden(\"" + datos[recorrer].IdComprobante + "\",\"" + contadorFila + "\")'>Selecionar</button></td><td class='td-texto' style='display: none;'>" + contadorFila + "</td><td class='td-texto' style='display: none;'> " + datos[recorrer].IdComprobante + " </td><td class='td-texto'> " + datos[recorrer].Registro + " </td><td class='td-texto'> " + datos[recorrer].No_Comprobate + " </td><td class='td-texto'>" + datos[recorrer].No_Doc + "</td><td class='td-texto'>" + datos[recorrer].Concepto + "</td><td class='td-texto'>" + datos[recorrer].AFavor + "</td><td class='td-texto'>" + datos[recorrer].ValorPagar + "</td><td class='td-texto'>" + datos[recorrer].Repertorio + "</td><td class='td-texto'>" + datos[recorrer].Fecha + "</td><td class='td-texto'>" + datos[recorrer].Cuantia + "</td><td class='td-texto'>" + datos[recorrer].FechaEntrega + "</td><td class='td-texto'>" + datos[recorrer].Estado + "</td><td class='td-texto'>" + datos[recorrer].CantidadTotal + "</td><td class='td-texto' style='display: none;'>" + datos[recorrer].Id_Usuario + "</td><td class='td-texto' style='display: none;'>" + "" + "</td></tr>").appendTo('#TListarRevision');
     }
 }
 function elimnar_todo_filas(id) {
@@ -523,4 +674,19 @@ function hacerModalArrastrable(modalId, headerId) {
     });
 }
 
+function llenarCombobox(datos, idcombox) {
+    const combo = document.getElementById(idcombox);
+    for (let recorrer = 0; recorrer < datos.length; recorrer++) {
+        const option = document.createElement("option");
+        option.value = datos[recorrer].Id_Usuario;        // value
+        option.textContent = datos[recorrer].Nombre;  // texto visible
+        combo.appendChild(option);
+    }
 
+}
+function limpiarTexto(texto) {
+    return texto
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n{2,}/g, "\n")
+        .trim();
+}

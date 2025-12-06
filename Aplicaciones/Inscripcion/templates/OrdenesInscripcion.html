@@ -94,8 +94,17 @@
         <div class="modal-body">
           <textarea class="form-control" rows="8" style="background-color:#ffffe0;" id="idNotas"></textarea>
         </div>
+         <div class="mt-4 text-center">
+    <button type="button" class="btn btn-success mb-2" id="idAgregarNotas">
+        <i class="bi bi-save"></i> Agregar
+    </button>
+</div>
+
       </div>
+      
     </div>
+   
+
   </div>
 
   <div id="apuntesModal" tabindex="-1" aria-labelledby="apuntesModalLabel" aria-hidden="true" style="position: fixed; top: 0; left: 0;right: 0;
@@ -110,9 +119,68 @@
         <div class="modal-body">
           <textarea class="form-control" rows="8" style="background-color:#ffffe0;" id="idApuntes"></textarea>
         </div>
+            <div class="mt-4 text-center">
+            <button type="button" class="btn btn-success mb-2" id="idAgregarApuntes">
+                <i class="bi bi-save"></i> Agregar
+            </button>
+        </div>
       </div>
     </div>
   </div>
+    <!---------------------------------------------- Modal Autprizacion------------------->
+  <div id="idautorizacionModal" tabindex="-1"
+     style="position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: none;
+            z-index: 9999;
+            display: none;  min-width: 400px; max-width: 600px; align-items: center;
+            justify-content: center;">
+
+  <div class="modal-dialog modal-lg" style="margin: 0; pointer-events: none; position: relative;">
+       
+    <div class="modal-content"
+         id="modalMovible"
+         style="background-color:#faebd7;     
+                border-radius: 10px;
+                pointer-events: auto;
+                position: absolute; width: 50%;">
+
+      <div class="modal-header" id="autorizacionHeader" 
+           style="cursor: grab;">
+        <h5 class="modal-title">AUTORIZACIÓN</h5>
+        <button type="button" class="btn btn-danger btn-sm" id="idAutocerraModal">X</button>
+      </div>
+
+      <div class="modal-body">
+ <div class="mb-3">
+   <label for="idSelectAutorizador" class="form-label fw-bold">Seleccione Autorizador:</label>
+ </div>
+        <div class="mb-3">
+         
+          <select id="idSelectAutorizador" class="form-select">
+          
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="idClaveAutorizacion" class="form-label fw-bold">Clave de Autorización:</label>
+          <input type="password" id="idClaveAutorizacion" class="form-control" placeholder="Ingrese la clave">
+        </div>
+      </div>
+      <div class="mt-4 text-center">
+        <button type="button" class="btn btn-success mb-2" id="idAutorizar">
+          <i class="bi bi-save"></i> Autorizar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
   <!---------------------------------------------- Modal COMPROBANTE------------------->
   <div id="idModalComprobante" style="width: 50%; position: fixed; top: 0; left: 0;right: 0;
             display: none; z-index: 9999; cursor: default; ">
@@ -244,7 +312,7 @@
 
     </div>
   </div>
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </body>
 
 </html>

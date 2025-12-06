@@ -4,7 +4,8 @@ if (!usuario) {
     window.location.href = "./login.php";
 } else {
 */
-
+//document.getElementById("nombreUsuarioFooter").text=sessionStorage.getItem("Nombre");
+ 
     $(document).on('click', '#1', function() {
         crearIframe('/inscripcion/FOrdenesInscripcion/','100%','100%');
     });
@@ -89,7 +90,7 @@ function llamar_modal(page)
 
 
 }
-function crearIframe(page, ancho,anchoI, largo = "600px") {
+function crearIframe(page, ancho,anchoI, largo = "500px") {
   // Crear el iframe
   const iframe = document.createElement("iframe");
   iframe.style.width = ancho;
@@ -106,6 +107,7 @@ function crearIframe(page, ancho,anchoI, largo = "600px") {
   contenedor.style.background = "white";
   contenedor.style.boxSizing = "border-box";
   contenedor.style.overflow = "hidden"; 
+  
     // Crear botón de cerrar
   const botonCerrar = document.createElement("button");
   botonCerrar.innerText = "X";

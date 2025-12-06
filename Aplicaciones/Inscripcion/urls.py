@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from Aplicaciones.Global.views import ListarLibrosVigentes, ListarFolio
+from Aplicaciones.Global.views import ListarLibrosVigentes, ListarFolio, ArchivoDocTramite
 from Aplicaciones.Global.views import ActualizarFolio
 
 urlpatterns = [
@@ -27,14 +27,16 @@ urlpatterns = [
     path('ListarAsignacionCalidad/', views.ListarAsignacionCalidad, name="ListarAsignacionCalidad"), 
     path('ListarIngresoInscripciones/', views.ListarIngresoInscripciones, name="ListarIngresoInscripciones"), 
     path('BuscarDevoluciones/', views.BuscarDevoluciones, name="BuscarDevoluciones"), 
-    path('ArchivoDocNDCertificado/', views.ArchivoDocNDCertificado, name="ArchivoDocNDCertificado"), 
-    path('ArchivoDocTramiteInscripcion/', views.ArchivoDocTramiteInscripcion, name="ArchivoDocTramiteInscripcion"), 
-    path('ArchivoDocTramiteDevuelto/', views.ArchivoDocTramiteDevuelto, name="ArchivoDocTramiteDevuelto"), 
+   # path('ArchivoDocNDCertificado/', ArchivoDocNDCertificado, name="ArchivoDocNDCertificado"), 
+    path('ArchivoDocTramiteInscripcion/', ArchivoDocTramite, name="ArchivoDocTramiteInscripcion"), 
+    path('ArchivoDocTramiteDevuelto/', ArchivoDocTramite, name="ArchivoDocTramiteDevuelto"), 
     path('ListarNotaInscripcion/', views.ListarNotaInscripcion, name="ListarNotaInscripcion"), 
     path('ListarApuntesInscripcion/', views.ListarApuntesInscripcion, name="ListarApuntesInscripcion"), 
     path('BuscarComproFactura/', views.BuscarComproFactura, name="BuscarComproFactura"), 
     path('BuscarApuntes/', views.BuscarApuntes, name="BuscarApuntes"), 
+    path('AgregarApuntes/', views.AgregarApuntes, name="AgregarApuntes"), 
     path('ListarNota/', views.ListarNota, name="ListarNota"),
+    path('AgregarNota/', views.AgregarNota, name="AgregarNota"),
     path('ListarLibrosVigentes/', ListarLibrosVigentes, name="ListarLibrosVigentes"),
     path('ListarFolio/', ListarFolio, name="ListarFolio"),
     path('ActualizarFolio/', ActualizarFolio, name="ActualizarFolio"),

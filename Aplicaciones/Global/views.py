@@ -2,11 +2,45 @@ from django.shortcuts import render
 from Aplicaciones.Global.Utils.Libros import LibrosDatos
 from Aplicaciones.Global.Utils.ListarFolios import ListarFoliosDatos
 from Aplicaciones.Global.Utils.Auditoria import AuditoriaDatos
+from Aplicaciones.Global.Utils.ListarCarpetasCompartidas import CarpetasDatos
 from datetime import datetime    
 
 from django.http import JsonResponse
 import json
+import os
+import base64
+#-----------------------------DOCUMENTOS
+def ArchivoDocTramite(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  
+            param0 = data.get("param0") 
+            param1 = data.get("param1") 
+            param2 = data.get("param2") 
+            mTipoRegistro = param0[0]
+            ptxtLibro = param0[0:1]
+            ptxtInscripcion = param0[6:12]
+            pAño = param0[2:6]
+            ptxtInscripcionsalida= str(ptxtInscripcion).zfill(6)[-6:]
+            pNombredelArchivo= f"{ptxtLibro}1{pAño}{ptxtInscripcionsalida}"        
+            listaCarpetas = CarpetasDatos.listar_carpetas_compartidas()
+            mSufijo = "00"
+            if param2 == "1":
+             sCarpetaTramite = os.path.join(listaCarpetas[0][param1],f"{pNombredelArchivo}.pdf")    
+            if param2 == "2":
+             sCarpetaTramite = os.path.join(listaCarpetas[0][param1],pAño,f"{pNombredelArchivo}{mSufijo}.pdf")       
+           
+            if os.path.exists(sCarpetaTramite):
+                with open(sCarpetaTramite, "rb") as f:
+                    pdf_bytes = f.read()  # <-- aquí tienes el PDF en bytes
+                    pdf_base64 = base64.b64encode(pdf_bytes).decode('utf-8')
+                    return JsonResponse([{"archivo_base64": pdf_base64, "mensaje": 1}], safe=False)
+            else:
+                 return JsonResponse([{"archivo_base64": None, "mensaje": 0}],safe=False)
 
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False, status=500)
+    return JsonResponse({"error": "Método no permitido"}, status=405)
 #------------------------------Libros
 def ListarLibrosVigentes(request):     
     if request.method == "POST":
