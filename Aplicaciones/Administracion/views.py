@@ -1,8 +1,8 @@
 from Aplicaciones.Global.Utils.encriptador import Encriptador
 from Aplicaciones.Global.Utils.Auditoria import AuditoriaDatos
+from Aplicaciones.Global.Utils.Usuario import UsuarioDatos
 from django.shortcuts import render
 import json
-from .models import TipoUsuarioDatos
 from django.http import JsonResponse
 
 
@@ -25,7 +25,7 @@ def BuscarUsuario(request):
             param0 = "1" 
             param1 = data.get("param1")  
             param2 = "1"                              
-            consultas = TipoUsuarioDatos()            
+            consultas = UsuarioDatos()            
             datos = consultas.BuscarUsuarioDatos("BuscarUsuario", [param0,param1,param2])
             if datos:            
                 datos_list = [dict(row) for row in datos]               
@@ -50,7 +50,8 @@ def GuardaUsuario(request):
             param7 = data.get("param7") 
             param8 = data.get("param8") 
             param9 = data.get("param9")        
-            consultas = TipoUsuarioDatos()
+            consultas = UsuarioDatos()
+            print(data)
             datos = consultas.GuardaUsuarioDatos("GuardarUsuario", [param0,param1,param2,param3,param4,param5,param6,param7,param8,param9])
             if datos:  
                 return JsonResponse(datos, safe=False)
@@ -75,7 +76,7 @@ def ActualizarUsuario(request):
             param6 = data.get("param6")
             param7 = data.get("param7") 
             param8 = data.get("param8")                  
-            consultas = TipoUsuarioDatos()
+            consultas = UsuarioDatos()
             datos = consultas.ActualizarUsuarioDatos("ActualizarUsuario", [param0,param1,param2,param3,param4,param5,param6,param7,param8])
             if datos:  
                 return JsonResponse(datos, safe=False)
@@ -88,7 +89,7 @@ def ActualizarUsuario(request):
 def ListarRolParaUsuarios(request):     
     if request.method == "POST":
         try:          
-            consultas = TipoUsuarioDatos()                  
+            consultas = UsuarioDatos()                  
             datos = consultas.ListarRolParaUsuariosDatos("ListarRolParaUsuarios")
             if datos:            
                 datos_list = [dict(row) for row in datos]
@@ -103,7 +104,7 @@ def ListarRolParaUsuarios(request):
 def MostrarTipoUsuario(request):     
     if request.method == "POST":
         try:          
-            consultas = TipoUsuarioDatos()                  
+            consultas = UsuarioDatos()                  
             datos = consultas.MostrarTipoUsuarioDatos("ListarTipoUsuario")
             if datos:            
                 datos_list = [dict(row) for row in datos]
@@ -122,7 +123,7 @@ def ListarUsuariosFiltrado(request):
             data = json.loads(request.body)
             param0 = data.get("param0")  
             param1 = data.get("param1")                   
-            consultas = TipoUsuarioDatos()        
+            consultas = UsuarioDatos()        
             datos = consultas.ListarUsuariosFiltradoDatos("ListarUsuariosFiltrado", [param0,param1])     
             if datos:  
                 return JsonResponse(datos, safe=False)
@@ -139,7 +140,7 @@ def ListarPermisos(request):
        
             data = json.loads(request.body)
             param0 = data.get("param0")                            
-            consultas = TipoUsuarioDatos()        
+            consultas = UsuarioDatos()        
             datos = consultas.ListarPermisosDatos("ListarPermisos", [param0])     
             if datos:  
                 return JsonResponse(datos, safe=False)

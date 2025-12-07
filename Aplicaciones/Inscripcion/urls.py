@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from Aplicaciones.Global.views import ListarLibrosVigentes, ListarFolio, ArchivoDocTramite
-from Aplicaciones.Global.views import ActualizarFolio
+from Aplicaciones.Global.views import ActualizarFolio, ValidarUsuarioNombre
 
 urlpatterns = [
     path('FOrdenesInscripcion/', views.FOrdenesInscripcion, name="OrdenesInscripcion"),
@@ -40,5 +40,6 @@ urlpatterns = [
     path('ListarLibrosVigentes/', ListarLibrosVigentes, name="ListarLibrosVigentes"),
     path('ListarFolio/', ListarFolio, name="ListarFolio"),
     path('ActualizarFolio/', ActualizarFolio, name="ActualizarFolio"),
+    path('ValidarUsuarioNombre/', ValidarUsuarioNombre, name="ValidarUsuarioNombre"), 
 
 ]

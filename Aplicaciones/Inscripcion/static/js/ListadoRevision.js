@@ -56,7 +56,7 @@ $(document).ready(function () {
         ocultarModal('idModalComprobante');
     });
     $("#idAutorizar").click(function () {
-
+        ValidaCredencialNombre();
     });
 
 
@@ -72,6 +72,77 @@ $(document).ready(function () {
 var parametroConsulta = "";
 let idfila = 0;
 let autorizacion = 0;
+function ValidaCredencialNombre() {
+    const idSelectAutorizador = document.getElementById("idSelectAutorizador");
+    const ObteneridSelectAutorizador = idSelectAutorizador.options[idSelectAutorizador.selectedIndex].text;;
+    var param0 = ObteneridSelectAutorizador;
+    var param1 = document.getElementById("idClaveAutorizacion").value;
+    if (param0.trim().length > 0 && param1.trim().length > 0) {
+        fetch("/inscripcion/ValidarUsuarioNombre/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookieL('csrftoken') // Obligatorio para POST en Django
+            },
+            body: JSON.stringify({
+                param0: param0,
+                param1: param1
+
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                var datos = data;
+                if (datos.length > 0) {
+
+                    if (Number(datos[0].Id_Usuario) > 0) {
+
+                        autorizacion = 1;
+                        document.getElementById('idautorizacionModal').style.display = "none";
+                        document.getElementById('idClaveAutorizacion').value = "";
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Autorizado correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                    else if (Number(datos[0].Id_Usuario) === 0) {
+                        autorizacion = 0;
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'info',
+                            title: datos[0].mensaje,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                }
+                else {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'info',
+                        title: 'Error de consulta',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(err => {
+                console.log("Ocurrió un error:", err);
+            });
+    }
+    else {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'info',
+            title: 'Debe de llenar los campos',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+}
 function comboautorizacion() {
     try {
 
@@ -129,26 +200,39 @@ function ProcederRevision() {
 
 
 
+
     }
     else {
-        Swal.fire({
-            title: 'Revisión',
-            text: "No cuenta con permisos para adelantar este trámite. ¿Desea solicitar la autorización correspondiente?",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí',
-            cancelButtonText: 'No',
-            reverseButtons: true  // Opcional: invierte el orden
-        }).then((result) => {
-            if (result.isConfirmed) {
-                comboautorizacion();
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                // ✖ NO
-                Swal.fire("Cancelado", "Elegiste No", "error");
-            }
-        });
+        if (autorizacion === 0) {
+            Swal.fire({
+                title: 'Revisión',
+                text: "No cuenta con permisos para adelantar este trámite. ¿Desea solicitar la autorización correspondiente?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'No',
+                reverseButtons: true  // Opcional: invierte el orden
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    comboautorizacion();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    // ✖ NO
+                    Swal.fire("Cancelado", "Elegiste No", "error");
+                }
+            });
 
+        }
+        else {
+           autorizacion=0;
+             Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'abriendo modal',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
 
+        }
 
     }
 
@@ -676,6 +760,8 @@ function hacerModalArrastrable(modalId, headerId) {
 
 function llenarCombobox(datos, idcombox) {
     const combo = document.getElementById(idcombox);
+    combo.innerHTML = "";
+    combo.innerHTML = "<option value='' disabled selected>Seleccione...</option>";
     for (let recorrer = 0; recorrer < datos.length; recorrer++) {
         const option = document.createElement("option");
         option.value = datos[recorrer].Id_Usuario;        // value

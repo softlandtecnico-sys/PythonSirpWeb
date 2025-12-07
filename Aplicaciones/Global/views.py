@@ -3,12 +3,33 @@ from Aplicaciones.Global.Utils.Libros import LibrosDatos
 from Aplicaciones.Global.Utils.ListarFolios import ListarFoliosDatos
 from Aplicaciones.Global.Utils.Auditoria import AuditoriaDatos
 from Aplicaciones.Global.Utils.ListarCarpetasCompartidas import CarpetasDatos
+from Aplicaciones.Global.Utils.Usuario import UsuarioDatos
+from Aplicaciones.Global.Utils.encriptador import Encriptador
 from datetime import datetime    
 
 from django.http import JsonResponse
 import json
 import os
 import base64
+#-----------------------------autorizacion
+def ValidarUsuarioNombre(request):    
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            param0 = data.get("param0") 
+            param1 = Encriptador.encriptar_cadena(data.get("param1"))                   
+            consultas = UsuarioDatos()            
+            datos = consultas.ValidarUsuarioNombreDatos("ValidarUsuarioNombre", [param0,param1]) 
+            if datos:            
+                datos_list = [dict(row) for row in datos]
+                return JsonResponse(datos_list, safe=False)
+            else:
+                return JsonResponse([{"Id_Usuario": 0, "mensaje": "Credenciales incorrectas"}], safe=False)
+        except Exception as e:
+            return JsonResponse([{"error": str(e)}], safe=False)
+    return JsonResponse({"error": "Método no encontrado"}, safe=False)
+
+
 #-----------------------------DOCUMENTOS
 def ArchivoDocTramite(request):
     if request.method == "POST":
@@ -102,7 +123,7 @@ def ActualizarFolio(request):
 #------------------------------Auditoria
 
 def GuardarAuditoria(request):    
-    print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+
     if request.method == "POST":
         try:
             data = json.loads(request.body)      

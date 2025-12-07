@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from Aplicaciones.Global.views import GuardarAuditoria
+from Aplicaciones.Global.views import GuardarAuditoria 
+
 
 urlpatterns = [
     path('FCrearUsuario/', views.FCrearUsuario, name="CrearUsuario"),
